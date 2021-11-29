@@ -1,8 +1,8 @@
 const path = require('path');
-const userRouter = require('./resources/users/user.router');
 
 const Fastify = require('fastify')
 const fastifySwagger = require('fastify-swagger')
+const userRouter = require('./resources/users/user.router');
 
 const swaggerOptions = {
   mode: 'static',

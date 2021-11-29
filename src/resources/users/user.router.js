@@ -3,7 +3,7 @@ const usersService = require('./user.service');
 
 async function userRouter(fastify) {
   
-  fastify.get('/', async (req, reply) => {
+  fastify.get('/', async () => {
     const users = await usersService.getAll();
     // map user fields to exclude secret fields like "password"
     return users.map(User.toResponse)
