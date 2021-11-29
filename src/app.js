@@ -2,8 +2,6 @@ const path = require('path');
 const userRouter = require('./resources/users/user.router');
 
 const Fastify = require('fastify')
-const expressPlugin = require('fastify-express')
-
 const fastifySwagger = require('fastify-swagger')
 
 const swaggerOptions = {
@@ -18,13 +16,12 @@ const swaggerOptions = {
 async function createApp() {
   
   const app = Fastify()
-  
-  await app.register(expressPlugin)
+
   await app.register(fastifySwagger, swaggerOptions)
   
   app.all('/', () => 'Service is running!')
 
-  app.use('/users', userRouter);
+  await app.register(userRouter, { prefix: '/users' })
   
   return app
 }
