@@ -13,9 +13,16 @@ const swaggerOptions = {
   },
 }
 
+const fastifyOptions = {
+
+  logger: (process.env.NODE_ENV === 'development')
+    ? { level: 'warn', prettyPrint: true }
+    : false,
+}
+
 async function createApp() {
   
-  const app = Fastify()
+  const app = Fastify(fastifyOptions)
 
   await app.register(fastifySwagger, swaggerOptions)
   
