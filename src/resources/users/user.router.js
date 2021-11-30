@@ -20,6 +20,12 @@ async function userRouter(fastify) {
     return User.toResponse(user)
   })
   
+  fastify.put('/:userId', async (req) => {
+    const { userId } = req.params
+    const user = await usersService.updateById(userId, req.body)
+    return User.toResponse(user)
+  })
+  
   fastify.delete('/:userId', async (req, reply) => {
     await usersService.removeById(req.params.userId)
     reply.code(204)

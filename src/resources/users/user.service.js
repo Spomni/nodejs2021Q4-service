@@ -11,6 +11,12 @@ function create(userLike) {
   return getById(user.id)
 }
 
+function updateById(userId, updateWith) {
+  const user = getById(userId)
+  Object.assign(user, updateWith)
+  return user
+}
+
 function removeById(userId) {
   usersRepo.removeOnce(({ id }) => id === userId)
 }
@@ -20,4 +26,5 @@ module.exports = {
   create,
   getById,
   removeById,
+  updateById,
 };
