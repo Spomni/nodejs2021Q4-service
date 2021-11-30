@@ -3,6 +3,7 @@ const path = require('path');
 const Fastify = require('fastify')
 const fastifySwagger = require('fastify-swagger')
 const userRouter = require('./resources/users/user.router');
+const boardRouter = require('./resources/boards/board.router');
 
 const swaggerOptions = {
   mode: 'static',
@@ -29,6 +30,7 @@ async function createApp() {
   app.all('/', () => 'Service is running!')
 
   await app.register(userRouter, { prefix: '/users' })
+  await app.register(boardRouter, { prefix: '/boards' })
   
   return app
 }
