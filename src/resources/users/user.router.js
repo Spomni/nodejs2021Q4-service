@@ -8,10 +8,15 @@ async function userRouter(fastify) {
     return users.map(User.toResponse)
   })
   
-  fastify.post('/', async (req, res) => {
+  fastify.post('/', async (req, reply) => {
     const user = await usersService.create(req.body);
-    res.code(201)
+    reply.code(201)
     return User.toResponse(user)
+  })
+  
+  fastify.delete('/:userId', async (req, reply) => {
+    await usersService.removeById(req.params.userId)
+    reply.code(204)
   })
 }
 

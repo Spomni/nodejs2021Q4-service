@@ -11,8 +11,13 @@ function create(userLike) {
   return getById(user.id)
 }
 
+function removeById(userId) {
+  usersRepo.removeOnce(({ id }) => id === userId)
+}
+
 module.exports = {
   getAll: usersRepo.getAll,
   create,
   getById,
+  removeById,
 };
