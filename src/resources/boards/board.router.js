@@ -4,18 +4,20 @@ async function boardRouter(fastify) {
 
   fastify.get('/', async () => boardService.getAll())
   
-  fastify.get('/:boardId', async (req) => {
-    const { boardId } = req.params
-    return boardService.getById(boardId)
+  fastify.get('/:boardId', async (req, reply) => {
+    const board = await boardService.getById(req.params.boardId)
+    return board || reply.callNotFound()
   })
 
   fastify.post('/', async (req, reply) => {
     reply.code(201)
-    return boardService.create(req.body)
+    const board = boardService.create(req.body)
+    return board
   })
   
   fastify.delete('/:boardId', async (req, reply) => {
-    // this is a mock
+    const { boardId } = req.params
+    await boardService.removeById(boardId)
     reply.code(204)
   })
 }

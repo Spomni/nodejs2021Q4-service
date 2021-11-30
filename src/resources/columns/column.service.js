@@ -32,7 +32,16 @@ async function getById(id) {
   return getByIdList(id)
 }
 
+function by(columnId) {
+  return ({ id }) => id === columnId
+}
+
+function removeById(columnId) {
+  columnRepo.remove(by(columnId))
+}
+
 module.exports = {
   create,
   getById,
+  removeById,
 }

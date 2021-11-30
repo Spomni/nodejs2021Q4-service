@@ -31,12 +31,24 @@ async function getAll() {
 
 async function getById(boardId) {
   const stored = boardRepo.getOnce(({ id }) => id === boardId)
+
+  if (!stored) {
+    return null
+  }
+
   const board = await wakeUpBoard(stored)
   return board.toResponse()
+}
+
+async function removeById(boardId) {
+  const { columns } = boardRepo.getOnce(({ id }) => id === boardId)
+  columns.forEach((columnId) => columnService.removeById(columnId))
+  boardRepo.remove(({ id }) => id === boardId)
 }
 
 module.exports = {
   create,
   getAll,
   getById,
+  removeById,
 }
