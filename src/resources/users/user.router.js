@@ -8,6 +8,12 @@ async function userRouter(fastify) {
     return users.map(User.toResponse)
   })
   
+  fastify.get('/:userId', async (req) => {
+    const { userId } = req.params
+    const user = await usersService.getById(userId)
+    return User.toResponse(user)
+  })
+  
   fastify.post('/', async (req, reply) => {
     const user = await usersService.create(req.body);
     reply.code(201)
