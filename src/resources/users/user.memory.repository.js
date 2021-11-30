@@ -1,6 +1,7 @@
-const getAll = async () => 
-  // TODO: mock implementation. should be replaced during task development
-   []
-;
+const collection = []
 
-module.exports = { getAll };
+module.exports = {
+  getAll() { return [...collection] },
+  add(value) { collection.push(value) },
+  getOnce(condition) { return collection.find(condition)},
+};

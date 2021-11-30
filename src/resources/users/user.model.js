@@ -1,4 +1,4 @@
-const uuid = require('uuid');
+const { v4: uuid } = require('uuid');
 
 class User {
   constructor({
@@ -11,6 +11,15 @@ class User {
     this.name = name;
     this.login = login;
     this.password = password;
+  }
+  
+  toStorage() {
+    const { id, name, login, password } = this
+    return { id, name, login, password }
+  }
+
+  toResponse() {
+    return User.toResponse(this)
   }
 
   static toResponse(user) {
