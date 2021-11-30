@@ -13,6 +13,22 @@ async function create(boardLike) {
   return board.toResponse()
 }
 
+async function getAll() {
+
+  const storedList = await boardRepo.getAll()
+
+  const boards = await Promise.all(
+    storedList.map(async (stored) => {
+
+      const columns = await columnService.getById(stored.columns)
+      return new Board({ ...stored, columns })
+    })
+  )
+
+  return boards.map(Board.toResponse)
+}
+
 module.exports = {
   create,
+  getAll,
 }

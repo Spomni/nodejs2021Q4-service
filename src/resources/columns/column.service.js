@@ -17,6 +17,22 @@ function create(columnLike) {
   return columnLike.map((current) => createOnce(current))
 }
 
+async function getByIdOnce(columnId) {
+  return columnRepo.getOnce(({ id }) => id === columnId)
+}
+
+async function getByIdList(columnIdList) {
+  return columnRepo.get(({ id }) => columnIdList.includes(id))
+}
+
+async function getById(id) {
+  if (!isArray(id)) {
+    return getByIdOnce(id)
+  }
+  return getByIdList(id)
+}
+
 module.exports = {
   create,
+  getById,
 }

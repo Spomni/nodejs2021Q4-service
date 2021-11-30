@@ -23,7 +23,11 @@ class Board {
   }
   
   toResponse() {
-    const { id, title, columns } = this
+    return Board.toResponse(this)
+  }
+  
+  static toResponse(board) {
+    const { id, title, columns } = board
     
     return {
       id,

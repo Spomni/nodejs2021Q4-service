@@ -2,14 +2,15 @@ const boardService = require('./board.service')
 
 async function boardRouter(fastify) {
 
+  fastify.get('/', async () => boardService.getAll())
+
   fastify.post('/', async (req, reply) => {
-    const board = await boardService.create(req.body)
     reply.code(201)
-    return board
+    return boardService.create(req.body)
   })
   
   fastify.delete('/:boardId', async (req, reply) => {
-    // this a mock
+    // this is a mock
     reply.code(204)
   })
 }
