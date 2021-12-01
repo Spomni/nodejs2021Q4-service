@@ -27,9 +27,16 @@ async function deleteBoard(req, reply) {
   reply.code(204)
 }
 
+async function updateBoard(req) {
+  const { boardId } = req.params
+  const board = await boardService.updateById(boardId, req.body)
+  return board
+}
+
 module.exports = {
   getAllBoards,
   getBoard,
   createBoard,
+  updateBoard,
   deleteBoard,
 }

@@ -4,6 +4,7 @@ const {
   getAllBoards,
   getBoard,
   createBoard,
+  updateBoard,
   deleteBoard,
 } = require('./board.handlers')
 
@@ -22,6 +23,11 @@ const routeList = [
     method: 'post',
     path: '/',
     handler: createBoard
+  },
+  {
+    method: 'put',
+    path: '/:boardId',
+    handler: updateBoard
   },
   {
     method: 'delete',

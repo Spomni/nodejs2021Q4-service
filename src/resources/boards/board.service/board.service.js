@@ -46,9 +46,18 @@ async function removeById(boardId) {
   ])
 }
 
+async function updateById(boardId, toUpdate) {
+
+  await removeById(boardId)
+  await storeBoard(new Board(toUpdate))
+
+  return getById(boardId)
+}
+
 module.exports = {
   create,
   getAll,
   getById,
   removeById,
+  updateById,
 }
