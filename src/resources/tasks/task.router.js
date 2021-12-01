@@ -1,9 +1,9 @@
 const { create: RouteRegistrator } = require('../../common/route-registrator')
 
 const {
-  createTask,
-  getAllTasks,
-  getTaskById,
+  createTaskOnBoard,
+  getAllTasksOnBoard,
+  getTask,
   updateTask,
   deleteTask,
 } = require('./task.handlers')
@@ -12,17 +12,17 @@ const routeList = [
   {
     method: 'post',
     path: '/',
-    handler: createTask,
+    handler: createTaskOnBoard,
   },
   {
     method: 'get',
     path: '/',
-    handler: getAllTasks,
+    handler: getAllTasksOnBoard,
   },
   {
     method: 'get',
     path: '/:taskId',
-    handler: getTaskById,
+    handler: getTask,
   },
   {
     method: 'put',

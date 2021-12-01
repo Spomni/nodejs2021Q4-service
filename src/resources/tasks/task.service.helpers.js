@@ -5,6 +5,10 @@ async function storeTask(task) {
   taskRepo.add(task.toStorage())
 }
 
+async function wakeUpTask(stored) {
+  return new Task(stored)
+}
+
 function byId(targetId) {
   return ({ id }) => id === targetId
 }
@@ -13,13 +17,9 @@ function byBoardId(targetBoardId) {
   return ({ boardId }) => boardId === targetBoardId
 }
 
-async function wakeUpTask(stored) {
-  return new Task(stored)
-}
-
 module.exports = {
   storeTask,
+  wakeUpTask,
   byId,
   byBoardId,
-  wakeUpTask,
 }

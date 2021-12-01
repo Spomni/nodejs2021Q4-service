@@ -3,8 +3,8 @@ const taskRepo = require('./task.memory.repository')
 
 const {
   storeTask,
-  byId,
   wakeUpTask,
+  byId,
   byBoardId,
 } = require('./task.service.helpers')
 
