@@ -1,28 +1,35 @@
-const usersRepo = require('./user.memory.repository');
+const userRepo = require('./user.memory.repository');
 const User = require('./user.model');
 
-function getAll() {
-  return usersRepo.getAll()
+function byId(targetId) {
+  return ({ id }) => id === targetId
 }
 
-function getById(userId) {
-  return usersRepo.getOnce(({ id }) => id === userId)
+async function getAll() {
+  return userRepo.getAll()
 }
 
-function create(userLike) {
+async function getById(userId) {
+  return userRepo.getOnce(byId(userId))
+}
+
+async function create(userLike) {
   const user = new User(userLike)
-  usersRepo.add(user.toStorage())
+  await userRepo.add(user.toStorage())
   return getById(user.id)
 }
 
-function updateById(userId, updateWith) {
-  const user = getById(userId)
-  Object.assign(user, updateWith)
-  return user
+async function updateById(userId, toUpdate) {
+  const user = new User(toUpdate)
+  
+  await userRepo.remove(byId(userId))
+  await userRepo.add(user.toStorage())
+  
+  return getById(user.id)
 }
 
-function removeById(userId) {
-  usersRepo.remove(({ id }) => id === userId)
+async function removeById(userId) {
+  await userRepo.remove(byId(userId))
 }
 
 module.exports = {
