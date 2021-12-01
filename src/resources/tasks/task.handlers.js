@@ -15,10 +15,10 @@ async function getAllTasks(req) {
   return tasks
 }
 
-async function getTaskById(req) {
+async function getTaskById(req, reply) {
   const { taskId } = req.params
   const task = await taskService.getById(taskId)
-  return task
+  return task || reply.callNotFound()
 }
 
 async function updateTask(req) {
@@ -27,9 +27,16 @@ async function updateTask(req) {
   return task
 }
 
+async function deleteTask(req, reply) {
+  const { taskId } = req.params
+  await taskService.deleteById(taskId)
+  reply.code(204)
+}
+
 module.exports = {
   createTask,
   getAllTasks,
   getTaskById,
   updateTask,
+  deleteTask,
 }

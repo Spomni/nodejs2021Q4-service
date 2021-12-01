@@ -5,6 +5,7 @@ const {
   getAllTasks,
   getTaskById,
   updateTask,
+  deleteTask,
 } = require('./task.handlers')
 
 const routeList = [
@@ -27,6 +28,11 @@ const routeList = [
     method: 'put',
     path: '/:taskId',
     handler: updateTask,
+  },
+  {
+    method: 'delete',
+    path: '/:taskId',
+    handler: deleteTask,
   },
 ]
 

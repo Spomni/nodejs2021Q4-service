@@ -10,6 +10,9 @@ const {
 
 async function getById(taskId) {
   const stored = await taskRepo.getOnce(byId(taskId))
+
+  if (!stored) return null
+
   const task = await wakeUpTask(stored)
   return task.toResponse()
 }
@@ -48,4 +51,5 @@ module.exports = {
   getAllByBoardId,
   getById,
   updateById,
+  deleteById,
 }
