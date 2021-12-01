@@ -1,30 +1,43 @@
-const usersRepo = require('./user.memory.repository');
+const userRepo = require('./user.memory.repository');
 const User = require('./user.model');
 
-function getById(userId) {
-  return usersRepo.getOnce(({ id }) => id === userId)
+function byId(targetId) {
+  return ({ id }) => id === targetId
 }
 
-function create(userLike) {
+async function getAll() {
+  const storedList = await userRepo.getAll()
+  return storedList.map(User.toResponse)
+}
+
+async function getById(userId) {
+  const stored = await userRepo.getOnce(byId(userId))
+  return User.toResponse(stored)
+}
+
+async function create(userLike) {
   const user = new User(userLike)
-  usersRepo.add(user.toStorage())
+  await userRepo.add(user.toStorage())
   return getById(user.id)
 }
 
-function updateById(userId, updateWith) {
-  const user = getById(userId)
-  Object.assign(user, updateWith)
-  return user
+async function updateById(userId, toUpdate) {
+  const user = new User(toUpdate)
+  
+  await userRepo.remove(byId(userId))
+  await userRepo.add(user.toStorage())
+  
+  return getById(user.id)
 }
 
-function removeById(userId) {
-  usersRepo.removeOnce(({ id }) => id === userId)
+async function removeById(userId) {
+  await userRepo.remove(byId(userId))
 }
 
 module.exports = {
-  getAll: usersRepo.getAll,
+  getAll,
   create,
   getById,
   removeById,
   updateById,
-};
+}
