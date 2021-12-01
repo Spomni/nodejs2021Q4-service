@@ -4,6 +4,7 @@ const Fastify = require('fastify')
 const fastifySwagger = require('fastify-swagger')
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
+const taskRouter = require('./resources/tasks/task.router');
 
 const swaggerOptions = {
   mode: 'static',
@@ -31,6 +32,7 @@ async function createApp() {
 
   await app.register(userRouter, { prefix: '/users' })
   await app.register(boardRouter, { prefix: '/boards' })
+  await app.register(taskRouter, { prefix: '/boards/:boardId/tasks' })
   
   return app
 }
