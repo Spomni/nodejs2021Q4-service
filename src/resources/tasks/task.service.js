@@ -33,4 +33,5 @@ async function getAllByBoardId(boardId) {
 module.exports = {
   create,
   getAllByBoardId,
+  getById,
 }

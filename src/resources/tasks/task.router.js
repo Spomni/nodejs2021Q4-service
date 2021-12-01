@@ -3,6 +3,7 @@ const { create: RouteRegistrator } = require('../../common/route-registrator')
 const {
   createTask,
   getAllTasks,
+  getTaskById,
 } = require('./task.handlers')
 
 const routeList = [
@@ -15,7 +16,12 @@ const routeList = [
     method: 'get',
     path: '/',
     handler: getAllTasks,
-  }
+  },
+  {
+    method: 'get',
+    path: '/:taskId',
+    handler: getTaskById,
+  },
 ]
 
 async function taskRouter(fastify) {
