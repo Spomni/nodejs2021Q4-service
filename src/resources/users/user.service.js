@@ -6,11 +6,13 @@ function byId(targetId) {
 }
 
 async function getAll() {
-  return userRepo.getAll()
+  const storedList = await userRepo.getAll()
+  return storedList.map(User.toResponse)
 }
 
 async function getById(userId) {
-  return userRepo.getOnce(byId(userId))
+  const stored = await userRepo.getOnce(byId(userId))
+  return User.toResponse(stored)
 }
 
 async function create(userLike) {

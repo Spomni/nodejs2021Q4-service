@@ -2,26 +2,23 @@ const User = require('./user.model');
 const usersService = require('./user.service');
 
 async function getAllUsers() {
-  const users = await usersService.getAll();
-  return users.map(User.toResponse)
+  return usersService.getAll()
 }
 
 async function getUser(req) {
   const { userId } = req.params
-  const user = await usersService.getById(userId)
-  return User.toResponse(user)
+  return await usersService.getById(userId)
 }
 
 async function createUser(req, reply) {
   const user = await usersService.create(req.body);
   reply.code(201)
-  return User.toResponse(user)
+  return user
 }
 
 async function updateUser(req) {
   const { userId } = req.params
-  const user = await usersService.updateById(userId, req.body)
-  return User.toResponse(user)
+  return usersService.updateById(userId, req.body)
 }
 
 async function deleteUser(req, reply) {
