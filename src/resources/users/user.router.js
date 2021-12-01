@@ -1,35 +1,44 @@
-const User = require('./user.model');
-const usersService = require('./user.service');
+const { create: RouteRegistrator } = require('../../common/route-registrator')
+
+const {
+  getAllUsers,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+} = require('./user.handlers')
+
+const routeList = [
+  {
+    method: 'get',
+    path: '/',
+    handler: getAllUsers,
+  },
+  {
+    method: 'get',
+    path: '/:userId',
+    handler: getUser,
+  },
+  {
+    method: 'post',
+    path: '/',
+    handler: createUser,
+  },
+  {
+    method: 'put',
+    path: '/:userId',
+    handler: updateUser,
+  },
+  {
+    method: 'delete',
+    path: '/:userId',
+    handler: deleteUser,
+  },
+]
 
 async function userRouter(fastify) {
-  
-  fastify.get('/', async () => {
-    const users = await usersService.getAll();
-    return users.map(User.toResponse)
-  })
-  
-  fastify.get('/:userId', async (req) => {
-    const { userId } = req.params
-    const user = await usersService.getById(userId)
-    return User.toResponse(user)
-  })
-  
-  fastify.post('/', async (req, reply) => {
-    const user = await usersService.create(req.body);
-    reply.code(201)
-    return User.toResponse(user)
-  })
-  
-  fastify.put('/:userId', async (req) => {
-    const { userId } = req.params
-    const user = await usersService.updateById(userId, req.body)
-    return User.toResponse(user)
-  })
-  
-  fastify.delete('/:userId', async (req, reply) => {
-    await usersService.removeById(req.params.userId)
-    reply.code(204)
-  })
+  RouteRegistrator(fastify)
+    .register(routeList)
 }
 
 module.exports = userRouter
