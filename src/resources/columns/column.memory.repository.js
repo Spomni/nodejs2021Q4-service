@@ -12,7 +12,7 @@ function getOnce(condition) {
 }
 
 function get(condition) {
-  return collection.filter((item) => !condition(item))
+  return collection.filter((item) => condition(item))
 }
 
 function remove(condition) {
