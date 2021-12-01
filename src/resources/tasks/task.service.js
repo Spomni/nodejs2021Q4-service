@@ -6,6 +6,7 @@ const {
   wakeUpTask,
   byId,
   byBoardId,
+  byUserId,
 } = require('./task.service.helpers')
 
 async function getById(taskId) {
@@ -46,10 +47,22 @@ async function updateById(taskId, toUpdate) {
   return getById(task.id)
 }
 
+async function unassignUser(userId) {
+  const storedList = taskRepo.get(byUserId(userId))
+  
+  await Promise.all(
+    storedList.map(async (stored) => {
+      const toUpdate = { ...stored, userId: null }
+      return updateById(stored.id, toUpdate)
+    })
+  )
+}
+
 module.exports = {
   create,
   getAllByBoardId,
   getById,
   updateById,
   deleteById,
+  unassignUser,
 }

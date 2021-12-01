@@ -17,9 +17,14 @@ function byBoardId(targetBoardId) {
   return ({ boardId }) => boardId === targetBoardId
 }
 
+function byUserId(targetUserId) {
+  return ({ userId }) => userId === targetUserId
+}
+
 module.exports = {
   storeTask,
   wakeUpTask,
   byId,
   byBoardId,
+  byUserId,
 }

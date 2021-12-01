@@ -1,5 +1,6 @@
 const userRepo = require('./user.memory.repository');
 const User = require('./user.model');
+const taskService = require('../tasks/task.service')
 
 function byId(targetId) {
   return ({ id }) => id === targetId
@@ -32,6 +33,7 @@ async function updateById(userId, toUpdate) {
 
 async function removeById(userId) {
   await userRepo.remove(byId(userId))
+  await taskService.unassignUser(userId)
 }
 
 module.exports = {
