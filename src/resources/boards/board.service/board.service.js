@@ -1,6 +1,7 @@
 const Board = require('../board.model')
 const boardRepo = require('../board.memory.repository')
 const columnService = require('../../columns/column.service')
+const taskService = require('../../tasks/task.service')
 
 const {
   wakeUpBoard,
@@ -39,10 +40,13 @@ async function create(boardLike) {
 async function removeById(boardId) {
 
   const { columns: columnIdList } = await boardRepo.getOnce(byId(boardId))
+  const taskList = await taskService.getAllByBoardId(boardId)
+  const taskIdList = taskList.map(({ id }) => id)
 
   await Promise.all([
     boardRepo.remove(byId(boardId)),
-    ...columnIdList.map(columnService.removeById)
+    ...columnIdList.map(columnService.removeById),
+    ...taskIdList.map(taskService.deleteById)
   ])
 }
 
