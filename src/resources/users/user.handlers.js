@@ -1,4 +1,3 @@
-const User = require('./user.model');
 const usersService = require('./user.service');
 
 async function getAllUsers() {
@@ -7,7 +6,7 @@ async function getAllUsers() {
 
 async function getUser(req) {
   const { userId } = req.params
-  return await usersService.getById(userId)
+  return usersService.getById(userId)
 }
 
 async function createUser(req, reply) {
