@@ -21,8 +21,15 @@ async function getTaskById(req) {
   return task
 }
 
+async function updateTask(req) {
+  const { taskId } = req.params
+  const task = await taskService.updateById(taskId, req.body)
+  return task
+}
+
 module.exports = {
   createTask,
   getAllTasks,
   getTaskById,
+  updateTask,
 }

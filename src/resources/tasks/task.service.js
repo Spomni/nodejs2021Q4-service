@@ -30,8 +30,22 @@ async function getAllByBoardId(boardId) {
   return taskList.map(Task.toResponse)
 }
 
+async function deleteById(taskId) {
+  await taskRepo.remove(byId(taskId))
+}
+
+async function updateById(taskId, toUpdate) {
+  const task = new Task(toUpdate)
+  
+  await deleteById(taskId)
+  await storeTask(task)
+  
+  return getById(task.id)
+}
+
 module.exports = {
   create,
   getAllByBoardId,
   getById,
+  updateById,
 }
