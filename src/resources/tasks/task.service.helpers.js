@@ -9,6 +9,10 @@ function byId(targetId) {
   return ({ id }) => id === targetId
 }
 
+function byBoardId(targetBoardId) {
+  return ({ boardId }) => boardId === targetBoardId
+}
+
 async function wakeUpTask(stored) {
   return new Task(stored)
 }
@@ -16,5 +20,6 @@ async function wakeUpTask(stored) {
 module.exports = {
   storeTask,
   byId,
+  byBoardId,
   wakeUpTask,
 }

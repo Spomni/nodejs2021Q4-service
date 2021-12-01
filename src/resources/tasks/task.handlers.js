@@ -9,6 +9,13 @@ async function createTask(req, reply) {
   return task
 }
 
+async function getAllTasks(req) {
+  const { boardId } = req.params
+  const tasks = await taskService.getAllByBoardId(boardId)
+  return tasks
+}
+
 module.exports = {
   createTask,
+  getAllTasks,
 }

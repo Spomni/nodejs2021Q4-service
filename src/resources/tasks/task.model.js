@@ -20,7 +20,7 @@ class Task {
   }
   
   toResponse() {
-    return this.toStorage()
+    return Task.toResponse(this)
   }
   
   toStorage() {
@@ -47,6 +47,10 @@ class Task {
       boardId,
       columnId,
     }
+  }
+  
+  static toResponse(task) {
+    return Task.toStorage(task)
   }
 }
 
