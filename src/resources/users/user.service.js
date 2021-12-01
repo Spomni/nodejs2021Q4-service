@@ -1,6 +1,10 @@
 const usersRepo = require('./user.memory.repository');
 const User = require('./user.model');
 
+function getAll() {
+  return usersRepo.getAll()
+}
+
 function getById(userId) {
   return usersRepo.getOnce(({ id }) => id === userId)
 }
@@ -18,13 +22,13 @@ function updateById(userId, updateWith) {
 }
 
 function removeById(userId) {
-  usersRepo.removeOnce(({ id }) => id === userId)
+  usersRepo.remove(({ id }) => id === userId)
 }
 
 module.exports = {
-  getAll: usersRepo.getAll,
+  getAll,
   create,
   getById,
   removeById,
   updateById,
-};
+}
