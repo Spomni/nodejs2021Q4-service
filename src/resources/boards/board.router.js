@@ -20,6 +20,12 @@ async function boardRouter(fastify) {
     await boardService.removeById(boardId)
     reply.code(204)
   })
+  
+  fastify.put('/:boardId', async (req) => {
+    const { boardId } = req.params
+    const board = await boardService.updateById(boardId, req.body)
+    return board
+  })
 }
 
 module.exports = boardRouter

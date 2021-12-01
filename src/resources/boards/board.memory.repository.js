@@ -12,7 +12,7 @@ function getOnce(condition) {
   return collection.find(condition)
 }
 
-function remove(condition) {
+async function remove(condition) {
   const index = collection.findIndex(condition)
   collection.splice(index, 1)
 }
