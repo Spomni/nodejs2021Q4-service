@@ -10,7 +10,7 @@ function createOnce(columnLike) {
 }
 
 function create(columnLike) {
-  if (isArray(columnLike)) {
+  if (!isArray(columnLike)) {
     return createOnce(columnLike)
   }
 

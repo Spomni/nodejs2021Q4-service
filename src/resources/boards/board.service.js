@@ -7,17 +7,6 @@ async function wakeUpBoard(stored) {
   return new Board({ ...stored, columns })
 }
 
-async function create(boardLike) {
-  const board = new Board(boardLike)
-  
-  const [ storableBoard, storableColumns ] = board.toStorage()
-
-  boardRepo.add(storableBoard)
-  columnService.create(storableColumns)
-  
-  return board.toResponse()
-}
-
 async function getAll() {
 
   const storedList = await boardRepo.getAll()
@@ -38,6 +27,18 @@ async function getById(boardId) {
 
   const board = await wakeUpBoard(stored)
   return board.toResponse()
+}
+
+async function create(boardLike) {
+  const board = new Board(boardLike)
+
+  const [ storableBoard, storableColumns ] = board.toStorage()
+
+  boardRepo.add(storableBoard)
+  columnService.create(storableColumns)
+
+  // return board.toResponse()
+  return getById(board.id)
 }
 
 async function removeById(boardId) {
