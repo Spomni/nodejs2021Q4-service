@@ -9,7 +9,7 @@ const { create: createRegistrant } = require('./common/route-registrant')
 
 const routeList = [
   {
-    method: 'get',
+    method: 'all',
     path: '/',
     handler: () => 'Service is running!'
   },
