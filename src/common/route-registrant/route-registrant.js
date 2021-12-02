@@ -1,4 +1,3 @@
-// eslint-disable-next-line max-classes-per-file
 const { isArray } = Array
 const isRouteConfig = ({ method }) => Boolean(method)
 const isPluginConfig = ({ plugin }) => Boolean(plugin)
