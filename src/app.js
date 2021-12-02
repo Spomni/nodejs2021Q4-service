@@ -6,6 +6,8 @@ const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
 const taskRouter = require('./resources/tasks/task.router');
 
+const { create: createRegistrant } = require('./common/route-registrant')
+
 const swaggerOptions = {
   mode: 'static',
   exposeRoute: true,
@@ -22,18 +24,32 @@ const fastifyOptions = {
     : false,
 }
 
+const routeList = [
+  {
+    options: { prefix: '/users' },
+    plugin: userRouter,
+  },
+  {
+    options: { prefix: '/boards' },
+    plugin: boardRouter,
+  },
+  {
+    options: { prefix: '/boards/:boardId/tasks' },
+    plugin: taskRouter,
+  }
+]
+
 async function createApp() {
-  
+
   const app = Fastify(fastifyOptions)
 
+  createRegistrant(app)
+    .register(routeList)
+
   await app.register(fastifySwagger, swaggerOptions)
-  
+
   app.all('/', () => 'Service is running!')
 
-  await app.register(userRouter, { prefix: '/users' })
-  await app.register(boardRouter, { prefix: '/boards' })
-  await app.register(taskRouter, { prefix: '/boards/:boardId/tasks' })
-  
   return app
 }
 
