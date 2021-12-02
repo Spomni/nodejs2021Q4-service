@@ -23,12 +23,12 @@ class RouteRegistrant {
   _registerConfigList(configList) {
     configList.forEach((config) => {
 
-      if (isRouteConfig) {
+      if (isRouteConfig(config)) {
         this._route(config)
         return
       }
 
-      if (isPluginConfig) {
+      if (isPluginConfig(config)) {
         this._register(config)
         return
       }
