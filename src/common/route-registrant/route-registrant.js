@@ -3,11 +3,7 @@ const { isArray } = Array
 const isRouteConfig = ({ method }) => Boolean(method)
 const isPluginConfig = ({ plugin }) => Boolean(plugin)
 
-class InvalidConfigError extends Error {
-  constructor(config) {
-    super(`invalid route config was found: ${config}`)
-  }
-}
+const { InvalidConfigError } = require('./route-registrant-errors')
 
 class RouteRegistrant {
 
@@ -38,7 +34,7 @@ class RouteRegistrant {
   }
 
   _route(config) {
-    
+
     const method = config.method.toUpperCase()
 
     if (method === 'ALL') {
@@ -55,7 +51,7 @@ class RouteRegistrant {
       handler,
       ...options
     } = config
-    
+
     this._fastify.all(path, options, handler)
   }
 
