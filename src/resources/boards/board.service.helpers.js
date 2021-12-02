@@ -1,6 +1,6 @@
-const Board = require('../board.model')
-const boardRepo = require('../board.memory.repository')
-const columnService = require('../../columns/column.service')
+const Board = require('./board.model')
+const boardRepo = require('./board.memory.repository')
+const columnService = require('../columns/column.service')
 
 async function wakeUpBoard(stored) {
   const columns = await columnService.getById(stored.columns)

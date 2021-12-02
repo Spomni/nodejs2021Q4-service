@@ -1,7 +1,7 @@
-const Board = require('../board.model')
-const boardRepo = require('../board.memory.repository')
-const columnService = require('../../columns/column.service')
-const taskService = require('../../tasks/task.service')
+const Board = require('./board.model')
+const boardRepo = require('./board.memory.repository')
+const columnService = require('../columns/column.service')
+const taskService = require('../tasks/task.service')
 
 const {
   wakeUpBoard,
