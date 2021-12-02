@@ -17,7 +17,8 @@ class MemoryRepository {
   }
   
   getOnce(condition) {
-    return this._collection.find(condition)
+    const entity = this._collection.find(condition)
+    return entity || null
   }
   
   getAll() {
