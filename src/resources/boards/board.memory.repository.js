@@ -1,25 +1,3 @@
-const collection = []
+const MemoryRepository = require('../../common/memory-repository')
 
-function add(board) {
-  collection.push(board)
-}
-
-function getAll() {
-  return [...collection]
-}
-
-function getOnce(condition) {
-  return collection.find(condition)
-}
-
-async function remove(condition) {
-  const index = collection.findIndex(condition)
-  collection.splice(index, 1)
-}
-
-module.exports = {
-  add,
-  getAll,
-  getOnce,
-  remove,
-}
+module.exports = MemoryRepository.create()
