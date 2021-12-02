@@ -7,6 +7,7 @@ jest.mock('fastify', () => {
     return {
       route: jest.fn(),
       register: jest.fn(),
+      all: jest.fn(),
     }
   })
 })
@@ -52,6 +53,24 @@ describe('route-registrant', () => {
           method: config.method.toUpperCase()
         })
       });
+      
+      it('should support the routing method ALL', () => {
+        const method = 'all'
+        const path = '/some/path'
+        const handler = () => {}
+        const options = { prop: 'name' }
+
+        const config = {
+          ...options,
+          method,
+          path,
+          handler,
+        }
+        
+        createRegistrant(app).register(config)
+        
+        expect(app.all).toHaveBeenCalledWith(path, options, handler)
+      })
 
       it('should add plugin by config', () => {
         const plugin = jest.fn()

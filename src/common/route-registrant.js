@@ -38,11 +38,25 @@ class RouteRegistrant {
   }
 
   _route(config) {
-    const options = {
-      ...config,
-      method: config.method.toUpperCase()
+    
+    const method = config.method.toUpperCase()
+
+    if (method === 'ALL') {
+      this._routeMethodAll(config)
+    } else {
+      this._fastify.route({ ...config, method })
     }
-    this._fastify.route(options)
+  }
+
+  _routeMethodAll(config) {
+    const {
+      method,
+      path,
+      handler,
+      ...options
+    } = config
+    
+    this._fastify.all(path, options, handler)
   }
 
   _register({ plugin, options }) {
