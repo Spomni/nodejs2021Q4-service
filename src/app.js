@@ -7,6 +7,10 @@ const taskRouter = require('./resources/tasks/task.router');
 
 const { create: createRegistrant } = require('./common/route-registrant')
 
+const isModeDev = () => process.env.NODE_ENV === 'development'
+const logWarn = () => ({ logger: { level: 'warn', prettyPrint: true }})
+const logNothing = () => ({ logger: false })
+
 const routeList = [
   {
     method: 'all',
@@ -31,16 +35,11 @@ const routeList = [
   }
 ]
 
-const fastifyOptions = {
-
-  logger: (process.env.NODE_ENV === 'development')
-    ? { level: 'warn', prettyPrint: true }
-    : false,
-}
-
 async function createApp() {
 
-  const app = Fastify(fastifyOptions)
+  const app = Fastify({
+    ...(isModeDev() ? logWarn() : logNothing()),
+  })
 
   createRegistrant(app)
     .register(routeList)
