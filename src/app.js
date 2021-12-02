@@ -9,6 +9,11 @@ const { create: createRegistrant } = require('./common/route-registrant')
 
 const routeList = [
   {
+    method: 'get',
+    path: '/',
+    handler: () => 'Service is running!'
+  },
+  {
     options: { prefix: '/doc' },
     plugin: swaggerUI,
   },
@@ -39,8 +44,6 @@ async function createApp() {
 
   createRegistrant(app)
     .register(routeList)
-
-  app.all('/', () => 'Service is running!')
 
   return app
 }
