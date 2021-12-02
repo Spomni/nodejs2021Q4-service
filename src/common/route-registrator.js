@@ -1,4 +1,12 @@
 const { isArray } = Array
+const isRouteConfig = ({ method }) => Boolean(method)
+const isPluginConfig = ({ plugin }) => Boolean(plugin)
+
+class InvalidConfigError extends Error {
+  constructor(config) {
+    super(`invalid route config was found: ${config}`)
+  }
+}
 
 class RouteRegistrator {
 
@@ -6,23 +14,40 @@ class RouteRegistrator {
     this._fastify = fastify
   }
   
-  register(route) {
-    const routeList = (isArray(route)) ? route : [route]
-    this._registerRouteList(routeList)
+  register(config) {
+    const configList = (isArray(config)) ? config : [config]
+    this._registerConfigList(configList)
   }
   
-  _registerRouteList(routeList) {
-    routeList.forEach((route) => {
-      
-      const opts = {
-        ...route,
-        method: route.method.toUpperCase()
+  _registerConfigList(configList) {
+    configList.forEach((config) => {
+    
+      if (isRouteConfig) {
+        this._route(config)
+        return
       }
       
-      this._fastify.route(opts)
+      if (isPluginConfig) {
+        this._register(config)
+        return
+      }
+      
+      throw new InvalidConfigError(config)
     })
   }
   
+  _route(config) {
+    const options = {
+      ...config,
+      method: config.method.toUpperCase()
+    }
+    this._fastify.route(options)
+  }
+
+  _register({ plugin, options }) {
+    this._fastify.register(plugin, options)
+  }
+
   static create(fastify) {
     return new RouteRegistrator(fastify)
   }
