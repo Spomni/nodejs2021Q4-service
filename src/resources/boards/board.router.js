@@ -1,4 +1,4 @@
-const { create: RouteRegistrator } = require('../../common/route-registrator')
+const { create: RouteRegistrant } = require('../../common/route-registrant')
 
 const {
   getAllBoards,
@@ -37,7 +37,7 @@ const routeList = [
 ]
 
 async function boardRouter(fastify) {
-  RouteRegistrator(fastify)
+  RouteRegistrant(fastify)
     .register(routeList)
 }
 

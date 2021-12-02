@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-classes-per-file
 const { isArray } = Array
 const isRouteConfig = ({ method }) => Boolean(method)
 const isPluginConfig = ({ plugin }) => Boolean(plugin)
@@ -8,34 +9,34 @@ class InvalidConfigError extends Error {
   }
 }
 
-class RouteRegistrator {
+class RouteRegistrant {
 
   constructor(fastify) {
     this._fastify = fastify
   }
-  
+
   register(config) {
     const configList = (isArray(config)) ? config : [config]
     this._registerConfigList(configList)
   }
-  
+
   _registerConfigList(configList) {
     configList.forEach((config) => {
-    
+
       if (isRouteConfig) {
         this._route(config)
         return
       }
-      
+
       if (isPluginConfig) {
         this._register(config)
         return
       }
-      
+
       throw new InvalidConfigError(config)
     })
   }
-  
+
   _route(config) {
     const options = {
       ...config,
@@ -49,8 +50,8 @@ class RouteRegistrator {
   }
 
   static create(fastify) {
-    return new RouteRegistrator(fastify)
+    return new RouteRegistrant(fastify)
   }
 }
 
-module.exports = RouteRegistrator
+module.exports = RouteRegistrant
