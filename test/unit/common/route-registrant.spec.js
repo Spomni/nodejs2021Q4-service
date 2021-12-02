@@ -19,7 +19,7 @@ describe('route-registrant', () => {
 
   describe('RouteRegistrant', () => {
 
-    describe('.create', () => {
+    describe('.create()', () => {
       it('should return create a new RouterRegistrant instance', () => {
         const app = Fastify()
 
@@ -28,5 +28,12 @@ describe('route-registrant', () => {
         expect(registrant).toBeInstanceOf(RouteRegistrant)
       })
     })
+
+    describe('#register()', () => {
+      it.todo('should add route by config');
+      it.todo('should add plugin by config');
+      it.todo('should works correct with configList');
+      it.todo('should throw an error if config is invalid');
+    });
   })
 })
