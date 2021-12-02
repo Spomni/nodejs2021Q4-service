@@ -31,7 +31,7 @@ async function getById(boardId) {
 
 async function create(boardLike) {
   const board = new Board(boardLike)
-  
+
   await storeBoard(board)
 
   return getById(board.id)
@@ -46,7 +46,7 @@ async function removeById(boardId) {
   await Promise.all([
     boardRepo.remove(byId(boardId)),
     ...columnIdList.map(columnService.removeById),
-    ...taskIdList.map(taskService.deleteById)
+    ...taskIdList.map(taskService.removeById)
   ])
 }
 

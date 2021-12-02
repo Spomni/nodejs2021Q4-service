@@ -2,9 +2,9 @@ const taskService = require('./task.service')
 
 async function createTaskOnBoard(req, reply) {
   const { boardId } = req.params
-  
+
   const task = await taskService.create({ ...req.body, boardId })
-  
+
   reply.code(201)
   return task
 }
@@ -25,9 +25,9 @@ async function updateTask(req) {
   return taskService.updateById(taskId, req.body)
 }
 
-async function deleteTask(req, reply) {
+async function removeTask(req, reply) {
   const { taskId } = req.params
-  await taskService.deleteById(taskId)
+  await taskService.removeById(taskId)
   reply.code(204)
 }
 
@@ -36,5 +36,5 @@ module.exports = {
   getAllTasksOnBoard,
   getTask,
   updateTask,
-  deleteTask,
+  removeTask,
 }

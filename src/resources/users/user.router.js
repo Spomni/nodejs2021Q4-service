@@ -5,7 +5,7 @@ const {
   getUser,
   createUser,
   updateUser,
-  deleteUser,
+  removeUser,
 } = require('./user.handlers')
 
 const routeList = [
@@ -32,7 +32,7 @@ const routeList = [
   {
     method: 'delete',
     path: '/:userId',
-    handler: deleteUser,
+    handler: removeUser,
   },
 ]
 

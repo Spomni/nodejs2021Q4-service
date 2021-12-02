@@ -5,7 +5,7 @@ const {
   getAllTasksOnBoard,
   getTask,
   updateTask,
-  deleteTask,
+  removeTask,
 } = require('./task.handlers')
 
 const routeList = [
@@ -32,7 +32,7 @@ const routeList = [
   {
     method: 'delete',
     path: '/:taskId',
-    handler: deleteTask,
+    handler: removeTask,
   },
 ]
 

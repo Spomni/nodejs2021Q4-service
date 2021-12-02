@@ -26,30 +26,30 @@ async function create(taskLike) {
 
 async function getAllByBoardId(boardId) {
   const storedList = await taskRepo.get(byBoardId(boardId))
-  
+
   const taskList = await Promise.all(
     storedList.map(wakeUpTask)
   )
-  
+
   return taskList.map(Task.toResponse)
 }
 
-async function deleteById(taskId) {
+async function removeById(taskId) {
   await taskRepo.remove(byId(taskId))
 }
 
 async function updateById(taskId, toUpdate) {
   const task = new Task(toUpdate)
-  
-  await deleteById(taskId)
+
+  await removeById(taskId)
   await storeTask(task)
-  
+
   return getById(task.id)
 }
 
 async function unassignUser(userId) {
   const storedList = taskRepo.get(byUserId(userId))
-  
+
   await Promise.all(
     storedList.map(async (stored) => {
       const toUpdate = { ...stored, userId: null }
@@ -63,6 +63,6 @@ module.exports = {
   getAllByBoardId,
   getById,
   updateById,
-  deleteById,
+  removeById,
   unassignUser,
 }

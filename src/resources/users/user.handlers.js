@@ -20,7 +20,7 @@ async function updateUser(req) {
   return usersService.updateById(userId, req.body)
 }
 
-async function deleteUser(req, reply) {
+async function removeUser(req, reply) {
   await usersService.removeById(req.params.userId)
   reply.code(204)
 }
@@ -30,5 +30,5 @@ module.exports = {
   getUser,
   createUser,
   updateUser,
-  deleteUser,
+  removeUser,
 }
