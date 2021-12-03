@@ -1,15 +1,21 @@
 const path = require('path');
 const fastifySwagger = require('fastify-swagger')
 
-async function swaggerUI(fastify) {
-  await fastify.register(fastifySwagger, {
+const apiYamlPath = path.resolve(__dirname, '../../../doc/api.yaml')
+
+function exposeStatic(routePrefix, specPath) {
+  return {
+    routePrefix,
     mode: 'static',
     exposeRoute: true,
-    routePrefix: '/',
     specification: {
-      path: path.resolve(__dirname, '../../../doc/api.yaml'),
+      path: specPath,
     },
-  })
+  };
+}
+
+async function swaggerUI(fastify) {
+  await fastify.register(fastifySwagger, exposeStatic('/', apiYamlPath))
 }
 
 module.exports = swaggerUI
