@@ -36,7 +36,7 @@ const routeList = [
   }
 ]
 
-async function createApp() {
+function createApp() {
 
   const app = Fastify({
     ...(isModeDev() ? logWarn() : logNothing()),
@@ -48,6 +48,4 @@ async function createApp() {
   return app
 }
 
-module.exports = {
-  createApp,
-}
+module.exports = createApp()
