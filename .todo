@@ -1,1 +1,3 @@
-[ ] change method names from "delete" to "remove"
+[x] change method names from "delete" to "remove"
+[ ] remove `fastify-express` and `swagger-ui-express` from dependencies
+[x] move unit tests to the separate folder
