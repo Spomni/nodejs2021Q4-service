@@ -1,11 +1,44 @@
-const router = require('express').Router();
-const User = require('./user.model');
-const usersService = require('./user.service');
+const { create: RouteRegistrant } = require('../../common/route-registrant')
 
-router.route('/').get(async (req, res) => {
-  const users = await usersService.getAll();
-  // map user fields to exclude secret fields like "password"
-  res.json(users.map(User.toResponse));
-});
+const {
+  getAllUsers,
+  getUser,
+  createUser,
+  updateUser,
+  removeUser,
+} = require('./user.handlers')
 
-module.exports = router;
+const routeList = [
+  {
+    method: 'get',
+    path: '/',
+    handler: getAllUsers,
+  },
+  {
+    method: 'get',
+    path: '/:userId',
+    handler: getUser,
+  },
+  {
+    method: 'post',
+    path: '/',
+    handler: createUser,
+  },
+  {
+    method: 'put',
+    path: '/:userId',
+    handler: updateUser,
+  },
+  {
+    method: 'delete',
+    path: '/:userId',
+    handler: removeUser,
+  },
+]
+
+async function userRouter(fastify) {
+  RouteRegistrant(fastify)
+    .register(routeList)
+}
+
+module.exports = userRouter

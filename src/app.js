@@ -1,24 +1,51 @@
-const express = require('express');
-const swaggerUI = require('swagger-ui-express');
-const path = require('path');
-const YAML = require('yamljs');
+const Fastify = require('fastify')
+
+const swaggerUI = require('./resources/doc/swagger-ui')
 const userRouter = require('./resources/users/user.router');
+const boardRouter = require('./resources/boards/board.router');
+const taskRouter = require('./resources/tasks/task.router');
 
-const app = express();
-const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+const { NODE_ENV } = require('./common/config')
+const { create: createRegistrant } = require('./common/route-registrant')
 
-app.use(express.json());
+const isModeDev = () => NODE_ENV === 'development'
+const logWarn = () => ({ logger: { level: 'warn', prettyPrint: true }})
+const logNothing = () => ({ logger: false })
 
-app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-
-app.use('/', (req, res, next) => {
-  if (req.originalUrl === '/') {
-    res.send('Service is running!');
-    return;
+const routeList = [
+  {
+    method: 'all',
+    path: '/',
+    handler: () => 'Service is running!'
+  },
+  {
+    options: { prefix: '/doc' },
+    plugin: swaggerUI,
+  },
+  {
+    options: { prefix: '/users' },
+    plugin: userRouter,
+  },
+  {
+    options: { prefix: '/boards' },
+    plugin: boardRouter,
+  },
+  {
+    options: { prefix: '/boards/:boardId/tasks' },
+    plugin: taskRouter,
   }
-  next();
-});
+]
 
-app.use('/users', userRouter);
+function createApp() {
 
-module.exports = app;
+  const app = Fastify({
+    ...(isModeDev() ? logWarn() : logNothing()),
+  })
+
+  createRegistrant(app)
+    .register(routeList)
+
+  return app
+}
+
+module.exports = createApp()

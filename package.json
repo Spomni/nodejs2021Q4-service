@@ -10,9 +10,11 @@
   "main": "src/server.js",
   "scripts": {
     "start": "nodemon src/server.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon src/server.js",
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
-    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
+    "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
+    "test:unit": "cross-env NODE_ENV=test:unit jest --testMatch \"<rootDir>/test-unit/**/*.spec.js\" --setupFilesAfterEnv \"<rootDir>/test-unit/setup-unit.js\""
   },
   "keywords": [
     "rs",
@@ -46,10 +48,9 @@
   "dependencies": {
     "cross-env": "7.0.3",
     "dotenv": "10.0.0",
-    "express": "4.17.1",
-    "swagger-ui-express": "4.1.6",
-    "uuid": "8.3.2",
-    "yamljs": "0.3.0"
+    "fastify": "^3.24.1",
+    "fastify-swagger": "^4.12.6",
+    "uuid": "8.3.2"
   },
   "devDependencies": {
     "chai": "4.3.4",
@@ -65,6 +66,7 @@
     "jest": "27.3.1",
     "lint-staged": "12.0.3",
     "nodemon": "2.0.15",
+    "pino-pretty": "^7.2.0",
     "prettier": "2.4.1",
     "supertest": "6.1.6"
   }
