@@ -21,7 +21,7 @@ async function getAll() {
 }
 
 async function getById(boardId) {
-  const stored = boardRepo.getOnce(byId(boardId))
+  const stored = await boardRepo.getOnce(byId(boardId))
 
   if (!stored) return null
 

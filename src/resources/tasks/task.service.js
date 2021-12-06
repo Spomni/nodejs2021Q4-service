@@ -48,7 +48,7 @@ async function updateById(taskId, toUpdate) {
 }
 
 async function unassignUser(userId) {
-  const storedList = taskRepo.get(byUserId(userId))
+  const storedList = await taskRepo.get(byUserId(userId))
 
   await Promise.all(
     storedList.map(async (stored) => {
