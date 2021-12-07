@@ -1,5 +1,5 @@
 const Board = require('./board.model')
-const boardRepo = require('./board.memory.repository')
+const { boardRepository: boardRepo } = require('./board.memory.repository')
 const columnService = require('../columns/column.service')
 
 async function wakeUpBoard(stored) {
