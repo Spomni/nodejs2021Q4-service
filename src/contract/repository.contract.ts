@@ -1,11 +1,11 @@
-export interface IConditionCallback<TItem> {
+export interface ConditionCallback<TItem> {
   (item: TItem): boolean
 }
 
 export interface IRepository<TItem> {
-  get(condition: IConditionCallback<TItem>): Promise<TItem[]>,
+  get(condition: ConditionCallback<TItem>): Promise<TItem[]>,
   getAll(): Promise<TItem[]>,
-  getOnce(condition: IConditionCallback<TItem>): Promise<TItem | null>,
+  getOnce(condition: ConditionCallback<TItem>): Promise<TItem | null>,
   add(...args: TItem[]): Promise<void>,
-  remove(condition: IConditionCallback<TItem>): Promise<void>,
+  remove(condition: ConditionCallback<TItem>): Promise<void>,
 }

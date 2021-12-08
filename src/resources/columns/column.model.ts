@@ -1,14 +1,8 @@
 import { v4 as uuid } from 'uuid'
-import { IResponsable } from '../../contract/responsable.contract'
-import { IStorable } from '../../contract/storable.contract'
+import { IColumn } from "../../contract/resources/column.contract";
+import { IModel } from "../../contract/model.contract";
 
-export interface ColumnLike {
-  id?: string,
-  title: string,
-  order: number,
-}
-
-export class Column implements ColumnLike, IStorable, IResponsable {
+export class Column implements IColumn, IModel<IColumn> {
   id: string
 
   title: string
@@ -33,7 +27,7 @@ export class Column implements ColumnLike, IStorable, IResponsable {
     return Column.toResponse(this)
   }
 
-  static create(columnLike: ColumnLike) {
+  static create(columnLike: IColumn) {
     return new Column(columnLike)
   }
 

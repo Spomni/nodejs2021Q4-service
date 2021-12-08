@@ -1,3 +1,3 @@
-export interface IStorable {
-  toStorage(): unknown
+export interface IStorable<TIModel> {
+  toStorage(): TIModel
 }

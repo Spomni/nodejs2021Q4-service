@@ -1,6 +1,6 @@
-import type { IRepository, IConditionCallback } from '../contract/repository.contract'
+import type { IRepository, ConditionCallback } from '../contract/repository.contract'
 
-function byStrictEqual<TItem>(target: TItem): IConditionCallback<TItem> {
+function byStrictEqual<TItem>(target: TItem): ConditionCallback<TItem> {
   return (item: TItem): boolean => item === target
 }
 
@@ -14,11 +14,11 @@ class MemoryRepository<TItem> implements IRepository<TItem> {
     this._collection.push(...items)
   }
 
-  async get(condition: IConditionCallback<TItem>) {
+  async get(condition: ConditionCallback<TItem>) {
     return this._collection.filter(condition)
   }
 
-  async getOnce(condition: IConditionCallback<TItem>) {
+  async getOnce(condition: ConditionCallback<TItem>) {
     const entity = this._collection.find(condition)
     return entity || null
   }
@@ -27,7 +27,7 @@ class MemoryRepository<TItem> implements IRepository<TItem> {
     return [...this._collection]
   }
 
-  async remove(condition: IConditionCallback<TItem>) {
+  async remove(condition: ConditionCallback<TItem>) {
     const toRemoveList = await this.get(condition)
 
     toRemoveList.forEach((toRemove) => {

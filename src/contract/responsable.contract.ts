@@ -1,3 +1,3 @@
-export interface IResponsable {
-  toResponse(): unknown
+export interface IResponsable<TIModel> {
+  toResponse(): TIModel
 }
