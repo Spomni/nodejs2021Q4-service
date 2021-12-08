@@ -1,5 +1,5 @@
 const { v4: uuid } = require('uuid')
-const Column = require('../columns/column.model')
+const { Column } = require('../columns/column.model')
 
 class Board {
 

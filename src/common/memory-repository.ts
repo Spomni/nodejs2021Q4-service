@@ -1,33 +1,33 @@
-import type { IRepository, ConditionCallback } from '../contract/i-repository'
+import type { IRepository, IConditionCallback } from '../contract/i-repository'
 
-function byStrictEqual(target: unknown): ConditionCallback {
-  return (item: unknown): boolean => item === target
+function byStrictEqual<TItem>(target: TItem): IConditionCallback<TItem> {
+  return (item: TItem): boolean => item === target
 }
 
 /**
  * Repository to store something in memory
  */
-class MemoryRepository implements IRepository {
-  _collection: unknown[] = []
+class MemoryRepository<TItem> implements IRepository<TItem> {
+  _collection: TItem[] = []
   
-  async add(...items: unknown[]): Promise<void> {
+  async add(...items: TItem[]) {
     this._collection.push(...items)
   }
-  
-  async get(condition: ConditionCallback): Promise<unknown[]> {
+
+  async get(condition: IConditionCallback<TItem>) {
     return this._collection.filter(condition)
   }
   
-  async getOnce(condition: ConditionCallback): Promise<unknown | null> {
+  async getOnce(condition: IConditionCallback<TItem>) {
     const entity = this._collection.find(condition)
     return entity || null
   }
   
-  async getAll(): Promise<unknown[]> {
+  async getAll() {
     return [...this._collection]
   }
   
-  async remove(condition: ConditionCallback): Promise<void> {
+  async remove(condition: IConditionCallback<TItem>) {
     const toRemoveList = await this.get(condition)
     
     toRemoveList.forEach((toRemove) => {
@@ -36,7 +36,7 @@ class MemoryRepository implements IRepository {
     })
   }
   
-  static create(): MemoryRepository {
+  static create<T>(): MemoryRepository<T> {
     return new MemoryRepository()
   }
 }
