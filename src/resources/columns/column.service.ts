@@ -1,13 +1,13 @@
-import { Column, ColumnLike } from './column.model'
+import { Column } from './column.model'
+import { IColumn } from '../../contract/resources/column.contract'
 import { columnRepository as columnRepo } from './column.memory.repository'
-import type { IConditionCallback } from '../../contract/i-repository'
 
 function isArray(value: unknown): value is unknown[] {
   return Array.isArray(value)
 }
 
 function byId(id: string) {
-  return (column: ColumnLike): boolean => column.id === id
+  return (column: IColumn): boolean => column.id === id
 }
 
 async function getByIdOnce(columnId: string) {
@@ -17,7 +17,7 @@ async function getByIdOnce(columnId: string) {
 }
 
 async function getByIdList(columnIdList: string[]) {
-  return columnRepo.get(({ id }: ColumnLike): boolean => columnIdList.includes(id))
+  return columnRepo.get(({ id }: IColumn): boolean => columnIdList.includes(id))
 }
 
 async function getById(id: string | string[]) {
@@ -28,17 +28,17 @@ async function getById(id: string | string[]) {
 }
 
 function byColumnId(columnId: string) {
-  return (item: ColumnLike) => item.id === columnId
+  return (item: IColumn) => item.id === columnId
 }
 
-async function createOnce(columnLike: ColumnLike) {
+async function createOnce(columnLike: IColumn) {
   const column = new Column(columnLike)
   await columnRepo.add(column.toStorage())
   return getByIdOnce(column.id)
 }
 
 async function create(
-  columnLike: ColumnLike | ColumnLike[]
+  columnLike: IColumn | IColumn[]
 ) {
   if (!isArray(columnLike)) {
     return createOnce(columnLike)

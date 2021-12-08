@@ -1,4 +1,4 @@
 import { MemoryRepository } from '../../common/memory-repository'
-import { ColumnLike } from './column.model'
+import { IColumn } from '../../contract/resources/column.contract'
 
-export const columnRepository = MemoryRepository.create<ColumnLike>()
+export const columnRepository = MemoryRepository.create<IColumn>()
