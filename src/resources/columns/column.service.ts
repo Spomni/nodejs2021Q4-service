@@ -2,53 +2,89 @@ import { Column } from './column.model'
 import { IColumn } from '../../contract/resources/column.contract'
 import { columnRepository as columnRepo } from './column.memory.repository'
 
+/**
+ * Check if the passed value is an instance of Array
+ *
+ * @param value - value to check
+ *
+ * @returns Confirmation or not
+ */
 function isArray(value: unknown): value is unknown[] {
   return Array.isArray(value)
 }
 
-function byId(id: string) {
-  return (column: IColumn): boolean => column.id === id
-}
-
-async function getByIdOnce(columnId: string) {
-  return columnRepo.getOnce(
-    byId(columnId)
-  )
-}
-
-async function getByIdList(columnIdList: string[]) {
-  return columnRepo.get(({ id }: IColumn): boolean => columnIdList.includes(id))
-}
-
-async function getById(id: string | string[]) {
-  if (!isArray(id)) {
-    return getByIdOnce(id)
-  }
-  return getByIdList(id)
-}
-
+/**
+ * Get an iterator callback to filter a column collection by id.
+ *
+ * Callback returns true if the current item's id strictly equals to the passed id
+ *
+ * @param columnId - if to equality
+ *
+ * @returns Confirmation or not
+ */
 function byColumnId(columnId: string) {
   return (item: IColumn) => item.id === columnId
 }
 
+/**
+ * Get an iterator callback to filter a column collection by id collection.
+ *
+ * Callback returns true if the current item's id is contained in the passed array od ids.
+ *
+ * @param idList - if to equality
+ *
+ * @returns Confirmation or not
+ */
+function byColumnIdList(columnIdList: string[]) {
+  return (column: IColumn) => columnIdList.includes(column.id)
+}
+
+/**
+ * Get stored columns by id.
+ *
+ * @param columnId - uuid string or an array of they
+ *
+ * @returns column or array of columns if more than one columns are found
+ */
+async function getById(columnId: string | string[]) {
+  return (isArray(columnId))
+    ? columnRepo.get(byColumnIdList(columnId))
+    : columnRepo.getOnce(byColumnId(columnId))
+}
+
+/**
+ * Create and store one column
+ *
+ * @param columnLike - initial column to store
+ *
+ * @returns stored column
+ */
 async function createOnce(columnLike: IColumn) {
   const column = new Column(columnLike)
   await columnRepo.add(column.toStorage())
-  return getByIdOnce(column.id)
+  return getById(column.id)
 }
 
-async function create(
-  columnLike: IColumn | IColumn[]
-) {
-  if (!isArray(columnLike)) {
-    return createOnce(columnLike)
-  }
-
-  return Promise.all(
-    columnLike.map((current) => createOnce(current))
-  )
+/**
+ * Create one or more columns
+ *
+ * @param columnLike - initial column to store or an array of they
+ *
+ * @returns stored column or an array of they
+ */
+async function create(columnLike: IColumn | IColumn[]) {
+  return (!isArray(columnLike))
+    ? createOnce(columnLike)
+    : Promise.all(
+        columnLike.map((current) => createOnce(current))
+      )
 }
 
+/**
+ * Remove stored column
+ *
+ * @param columnId - id to find column in storage
+ */
 async function removeById(columnId: string) {
   columnRepo.remove(byColumnId(columnId))
 }
