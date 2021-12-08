@@ -1,6 +1,6 @@
 import { Column, ColumnLike } from './column.model'
 import { columnRepository as columnRepo } from './column.memory.repository'
-import type { IConditionCallback } from '../../contract/i-repository'
+import type { IConditionCallback } from '../../contract/repository.contract'
 
 function isArray(value: unknown): value is unknown[] {
   return Array.isArray(value)
