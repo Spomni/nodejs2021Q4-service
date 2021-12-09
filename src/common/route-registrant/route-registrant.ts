@@ -3,17 +3,16 @@ import type {
   HTTPMethods,
 } from 'fastify'
 
-import type {
+import {
   RouteConfig,
   PluginConfig,
   RouteMethods,
-} from './route-registrant-types'
 
-import {
   isArray,
   isRouteConfig,
   isPluginConfig,
 } from './route-registrant-types'
+
 
 import { InvalidConfigError } from './route-registrant-errors'
 
@@ -22,14 +21,14 @@ import { InvalidConfigError } from './route-registrant-errors'
  */
 export class RouteRegistrant {
   private _fastify: FastifyInstance
-  
+
   constructor(fastify: FastifyInstance) {
     this._fastify = fastify
   }
 
   /**
    * Register routes and router plugins
-   * 
+   *
    * @param config - route config or an array of them
    */
   register(
@@ -41,7 +40,7 @@ export class RouteRegistrant {
 
   /**
    * Register routes and router plugins
-   * 
+   *
    * @param configList - array of routes and plugins configuration
    */
   private _registerConfigList(
@@ -65,13 +64,13 @@ export class RouteRegistrant {
 
   /**
    * Register a route
-   * 
+   *
    * @param config - route config
    */
   private _route(config: RouteConfig) {
 
     const { method } = config
-    
+
     const methodList = (isArray(method)) ? method : [method]
       .map((name) => name.toUpperCase() as RouteMethods)
 
@@ -88,7 +87,7 @@ export class RouteRegistrant {
 
   /**
    * Register route with the method ALL
-   * 
+   *
    * @param config - route configuration
    */
   private _routeMethodAll(config: RouteConfig) {
@@ -104,7 +103,7 @@ export class RouteRegistrant {
 
   /**
    * Register fastify router plugin
-   * 
+   *
    * @param config - plugin configuration
    */
   private _register(config: PluginConfig) {

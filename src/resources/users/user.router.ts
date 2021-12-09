@@ -1,12 +1,13 @@
-const { RouteRegistrant } = require('../../common/route-registrant')
+import { FastifyInstance } from "fastify";
+import { RouteRegistrant, RouteConfig } from "../../common/route-registrant";
 
-const {
+import {
   getAllUsers,
   getUser,
   createUser,
   updateUser,
   removeUser,
-} = require('./user.handlers')
+} from "./user.handlers";
 
 const routeList = [
   {
@@ -34,11 +35,9 @@ const routeList = [
     path: '/:userId',
     handler: removeUser,
   },
-]
+] as RouteConfig[]
 
-async function userRouter(fastify) {
+export async function userRouter(fastify: FastifyInstance) {
   RouteRegistrant.create(fastify)
     .register(routeList)
 }
-
-module.exports = userRouter

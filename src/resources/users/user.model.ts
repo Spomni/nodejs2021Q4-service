@@ -1,6 +1,22 @@
+import {
+  IUserModel,
+  IUserToStore,
+  IUserToSend,
+  IUserToCreate,
+} from "../../contract/resources/user.contract";
+
 const { v4: uuid } = require('uuid');
 
-class User {
+export class User implements IUserModel {
+
+  id: string
+
+  name: string
+
+  login: string
+
+  password: string
+
   constructor({
     id = uuid(),
     name = 'USER',
@@ -12,20 +28,22 @@ class User {
     this.login = login;
     this.password = password;
   }
-  
-  toStorage() {
+
+  toStorage(): IUserToStore {
     const { id, name, login, password } = this
     return { id, name, login, password }
   }
 
-  toResponse() {
+  toResponse(): IUserToSend {
     return User.toResponse(this)
   }
 
-  static toResponse(user) {
+  static toResponse(user: IUserModel): IUserToSend {
     const { id, name, login } = user;
     return { id, name, login };
   }
-}
 
-module.exports = User;
+  static create(user: IUserToCreate) {
+    return new User(user)
+  }
+}
