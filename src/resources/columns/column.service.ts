@@ -1,5 +1,5 @@
 import { Column } from './column.model'
-import { IColumn } from '../../contract/resources/column.contract'
+import { IColumnToStore } from '../../contract/resources/column.contract'
 import { columnRepository as columnRepo } from './column.memory.repository'
 
 /**
@@ -23,7 +23,7 @@ function isArray(value: unknown): value is unknown[] {
  * @returns Confirmation or not
  */
 function byColumnId(columnId: string) {
-  return (item: IColumn) => item.id === columnId
+  return (item: IColumnToStore) => item.id === columnId
 }
 
 /**
@@ -36,7 +36,7 @@ function byColumnId(columnId: string) {
  * @returns Confirmation or not
  */
 function byColumnIdList(columnIdList: string[]) {
-  return (column: IColumn) => columnIdList.includes(column.id)
+  return (column: IColumnToStore) => columnIdList.includes(column.id)
 }
 
 /**
@@ -59,7 +59,7 @@ async function getById(columnId: string | string[]) {
  *
  * @returns stored column
  */
-async function createOnce(columnLike: IColumn) {
+async function createOnce(columnLike: IColumnToStore) {
   const column = new Column(columnLike)
   await columnRepo.add(column.toStorage())
   return getById(column.id)
@@ -72,7 +72,7 @@ async function createOnce(columnLike: IColumn) {
  *
  * @returns stored column or an array of they
  */
-async function create(columnLike: IColumn | IColumn[]) {
+async function create(columnLike: IColumnToStore | IColumnToStore[]) {
   return (!isArray(columnLike))
     ? createOnce(columnLike)
     : Promise.all(
