@@ -1,4 +1,4 @@
-const { create: RouteRegistrant } = require('../../common/route-registrant')
+const { RouteRegistrant } = require('../../common/route-registrant')
 
 const {
   getAllUsers,
@@ -37,7 +37,7 @@ const routeList = [
 ]
 
 async function userRouter(fastify) {
-  RouteRegistrant(fastify)
+  RouteRegistrant.create(fastify)
     .register(routeList)
 }
 

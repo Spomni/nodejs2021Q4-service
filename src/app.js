@@ -6,7 +6,7 @@ const boardRouter = require('./resources/boards/board.router');
 const taskRouter = require('./resources/tasks/task.router');
 
 const { NODE_ENV } = require('./common/config')
-const { create: createRegistrant } = require('./common/route-registrant')
+const { RouteRegistrant } = require('./common/route-registrant')
 
 const isModeDev = () => NODE_ENV === 'development'
 const logWarn = () => ({ logger: { level: 'warn', prettyPrint: true }})
@@ -42,7 +42,7 @@ function createApp() {
     ...(isModeDev() ? logWarn() : logNothing()),
   })
 
-  createRegistrant(app)
+  RouteRegistrant.create(app)
     .register(routeList)
 
   return app
