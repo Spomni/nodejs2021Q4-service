@@ -2,7 +2,7 @@ import * as path from 'path'
 
 import fastifySwagger from 'fastify-swagger'
 import type { FastifyStaticSwaggerOptions } from 'fastify-swagger'
-import type { FastifyInstance } from 'fastify'
+import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 
 const apiYamlPath = path.resolve(__dirname, '../../../doc/api.yaml')
 
@@ -34,5 +34,10 @@ function exposeStatic(
  * @param fastify - fastify instance
  */
 export async function swaggerUI(fastify: FastifyInstance) {
+
   await fastify.register(fastifySwagger, exposeStatic('/', apiYamlPath))
+
+  await fastify.all('' , async (req: FastifyRequest, reply: FastifyReply) => {
+    reply.redirect(`${req.url}/`)
+  })
 }
