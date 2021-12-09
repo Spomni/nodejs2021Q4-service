@@ -21,10 +21,15 @@ function byUserId(targetUserId) {
   return ({ userId }) => userId === targetUserId
 }
 
+function byColumnId(targetColumnId) {
+  return ({ columnId }) => columnId === targetColumnId
+}
+
 module.exports = {
   storeTask,
   wakeUpTask,
   byId,
   byBoardId,
   byUserId,
+  byColumnId,
 }

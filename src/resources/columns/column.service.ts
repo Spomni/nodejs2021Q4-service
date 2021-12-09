@@ -1,6 +1,7 @@
 import { Column } from './column.model'
 import { IColumnToStore } from '../../contract/resources/column.contract'
 import { columnRepository as columnRepo } from './column.memory.repository'
+import * as taskService from "../tasks/task.service";
 
 /**
  * Check if the passed value is an instance of Array
@@ -37,6 +38,10 @@ function byColumnId(columnId: string) {
  */
 function byColumnIdList(columnIdList: string[]) {
   return (column: IColumnToStore) => columnIdList.includes(column.id)
+}
+
+function byBoardId(targetBoardId: string) {
+  return ({ boardId }: IColumnToStore) => boardId === targetBoardId
 }
 
 /**
@@ -86,11 +91,19 @@ async function create(columnLike: IColumnToStore | IColumnToStore[]) {
  * @param columnId - id to find column in storage
  */
 async function removeById(columnId: string) {
-  columnRepo.remove(byColumnId(columnId))
+  await Promise.all([
+    columnRepo.remove(byColumnId(columnId)),
+    taskService.removeByColumnId(columnId)
+  ])
+}
+
+async function removeByBoardId(boardId: string) {
+  await columnRepo.remove(byBoardId(boardId))
 }
 
 export {
   create,
   getById,
   removeById,
+  removeByBoardId,
 }
