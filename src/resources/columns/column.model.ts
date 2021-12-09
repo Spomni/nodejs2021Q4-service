@@ -1,25 +1,33 @@
 import { v4 as uuid } from 'uuid'
-import { IColumn } from "../../contract/resources/column.contract";
-import { IModel } from "../../contract/model.contract";
+import {
+  IColumnModel,
+  IColumnToCreate,
+  IColumnToSend,
+  IColumnToStore
+} from "../../contract/resources/column.contract";
 
 /**
  * Column model
  */
-export class Column implements IColumn, IModel<IColumn> {
+export class Column implements IColumnModel {
   id: string
 
   title: string
 
   order: number
 
+  boardId: string
+
   constructor({
     id = uuid(),
     title = 'Column',
     order = 0,
-  }) {
+    boardId,
+  }: IColumnToCreate) {
     this.id = id
     this.title = title
     this.order = order
+    this.boardId = boardId
   }
 
   /**
@@ -37,7 +45,7 @@ export class Column implements IColumn, IModel<IColumn> {
    *
    * @returns - safely column
    */
-  toStorage(): IColumn {
+  toStorage() {
     return Column.toStorage(this)
   }
 
@@ -46,7 +54,7 @@ export class Column implements IColumn, IModel<IColumn> {
    *
    * @returns - safely column
    */
-  toResponse(): IColumn {
+  toResponse() {
     return Column.toResponse(this)
   }
 
@@ -55,9 +63,9 @@ export class Column implements IColumn, IModel<IColumn> {
    *
    * @returns - safely column
    */
-  static toStorage(column: Column): IColumn {
-    const { id, title, order } = column
-    return { id, title, order }
+  static toStorage(column: Column): IColumnToStore {
+    const { id, title, order, boardId } = column
+    return { id, title, order, boardId }
   }
 
   /**
@@ -65,7 +73,7 @@ export class Column implements IColumn, IModel<IColumn> {
    *
    * @returns - safely column
    */
-  static toResponse(column: Column): IColumn {
+  static toResponse(column: Column): IColumnToSend {
     const { id, title, order } = column
     return { id, title, order }
   }
@@ -76,7 +84,7 @@ export class Column implements IColumn, IModel<IColumn> {
    * @param columnLike - initial column to create from
    * @returns - new Column instance
    */
-  static create(columnLike: IColumn) {
+  static create(columnLike: IColumnToCreate) {
     return new Column(columnLike)
   }
 }

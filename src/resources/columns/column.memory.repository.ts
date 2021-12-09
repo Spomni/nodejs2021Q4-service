@@ -1,4 +1,4 @@
 import { MemoryRepository } from '../../common/memory-repository'
-import { IColumn } from '../../contract/resources/column.contract'
+import { IColumnToStore } from '../../contract/resources/column.contract'
 
-export const columnRepository = MemoryRepository.create<IColumn>()
+export const columnRepository = MemoryRepository.create<IColumnToStore>()

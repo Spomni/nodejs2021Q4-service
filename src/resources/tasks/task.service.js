@@ -7,6 +7,7 @@ const {
   byId,
   byBoardId,
   byUserId,
+  byColumnId,
 } = require('./task.service.helpers')
 
 async function getById(taskId) {
@@ -38,6 +39,14 @@ async function removeById(taskId) {
   await taskRepo.remove(byId(taskId))
 }
 
+async function removeByColumnId(columnId) {
+  await taskRepo.remove(byColumnId(columnId))
+}
+
+async function removeByBoardId(boardId) {
+  await taskRepo.remove(byBoardId(boardId))
+}
+
 async function updateById(taskId, toUpdate) {
   const task = new Task(toUpdate)
 
@@ -64,5 +73,7 @@ module.exports = {
   getById,
   updateById,
   removeById,
+  removeByColumnId,
+  removeByBoardId,
   unassignUser,
 }

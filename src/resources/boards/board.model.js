@@ -10,7 +10,9 @@ class Board {
   }) {
     this.id = id
     this.title = title
-    this.columns = columns.map(Column.create)
+    this.columns = columns.map(
+      (columnLike) => Column.create({ ...columnLike, boardId: id })
+    )
   }
 
   toStorage() {
@@ -21,14 +23,14 @@ class Board {
       columns.map(Column.toStorage)
     ]
   }
-  
+
   toResponse() {
     return Board.toResponse(this)
   }
-  
+
   static toResponse(board) {
     const { id, title, columns } = board
-    
+
     return {
       id,
       title,

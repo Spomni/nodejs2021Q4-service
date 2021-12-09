@@ -1,6 +1,7 @@
 import { Column } from './column.model'
-import { IColumn } from '../../contract/resources/column.contract'
+import { IColumnToStore } from '../../contract/resources/column.contract'
 import { columnRepository as columnRepo } from './column.memory.repository'
+import * as taskService from "../tasks/task.service";
 
 /**
  * Check if the passed value is an instance of Array
@@ -23,7 +24,7 @@ function isArray(value: unknown): value is unknown[] {
  * @returns Confirmation or not
  */
 function byColumnId(columnId: string) {
-  return (item: IColumn) => item.id === columnId
+  return (item: IColumnToStore) => item.id === columnId
 }
 
 /**
@@ -36,7 +37,11 @@ function byColumnId(columnId: string) {
  * @returns Confirmation or not
  */
 function byColumnIdList(columnIdList: string[]) {
-  return (column: IColumn) => columnIdList.includes(column.id)
+  return (column: IColumnToStore) => columnIdList.includes(column.id)
+}
+
+function byBoardId(targetBoardId: string) {
+  return ({ boardId }: IColumnToStore) => boardId === targetBoardId
 }
 
 /**
@@ -59,7 +64,7 @@ async function getById(columnId: string | string[]) {
  *
  * @returns stored column
  */
-async function createOnce(columnLike: IColumn) {
+async function createOnce(columnLike: IColumnToStore) {
   const column = new Column(columnLike)
   await columnRepo.add(column.toStorage())
   return getById(column.id)
@@ -72,7 +77,7 @@ async function createOnce(columnLike: IColumn) {
  *
  * @returns stored column or an array of they
  */
-async function create(columnLike: IColumn | IColumn[]) {
+async function create(columnLike: IColumnToStore | IColumnToStore[]) {
   return (!isArray(columnLike))
     ? createOnce(columnLike)
     : Promise.all(
@@ -86,11 +91,19 @@ async function create(columnLike: IColumn | IColumn[]) {
  * @param columnId - id to find column in storage
  */
 async function removeById(columnId: string) {
-  columnRepo.remove(byColumnId(columnId))
+  await Promise.all([
+    columnRepo.remove(byColumnId(columnId)),
+    taskService.removeByColumnId(columnId)
+  ])
+}
+
+async function removeByBoardId(boardId: string) {
+  await columnRepo.remove(byBoardId(boardId))
 }
 
 export {
   create,
   getById,
   removeById,
+  removeByBoardId,
 }
