@@ -1,6 +1,6 @@
 const Fastify = require('fastify')
 
-const swaggerUI = require('./resources/doc/swagger-ui')
+const { swaggerUI } = require('./resources/doc/swagger-ui')
 const userRouter = require('./resources/users/user.router');
 const boardRouter = require('./resources/boards/board.router');
 const taskRouter = require('./resources/tasks/task.router');
