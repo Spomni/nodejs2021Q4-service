@@ -1,12 +1,13 @@
-const { RouteRegistrant } = require('../../common/route-registrant')
+import type { FastifyInstance } from 'fastify'
+import { RouteRegistrant, RouteConfig } from '../../common/route-registrant'
 
-const {
+import {
   getAllBoards,
   getBoard,
   createBoard,
   updateBoard,
   removeBoard,
-} = require('./board.handlers')
+} from './board.handlers'
 
 const routeList = [
   {
@@ -34,11 +35,9 @@ const routeList = [
     path: '/:boardId',
     handler: removeBoard
   },
-]
+] as RouteConfig[]
 
-async function boardRouter(fastify) {
+export async function boardRouter(fastify: FastifyInstance) {
   RouteRegistrant.create(fastify)
     .register(routeList)
 }
-
-module.exports = boardRouter
