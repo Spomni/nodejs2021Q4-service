@@ -1,5 +1,12 @@
 import { IModel } from "../model.contract";
 
+export interface IColumn {
+  id?: string
+  title: string,
+  order: number,
+  boardId: string,
+}
+
 export interface IColumnToCreate {
   id?: string
   title: string,
