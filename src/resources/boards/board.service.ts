@@ -1,13 +1,14 @@
-const Board = require('./board.model')
-const { boardRepository: boardRepo } = require('./board.memory.repository')
-const columnService = require('../columns/column.service')
-const taskService = require('../tasks/task.service')
+import { Board } from './board.model'
+import { boardRepository as boardRepo } from './board.memory.repository'
+import * as columnService from '../columns/column.service'
+import * as taskService from '../tasks/task.service'
+import { IBoard } from '../../contract/resources/board.contract'
 
-const {
+import {
   wakeUpBoard,
   byId,
   storeBoard,
-} = require('./board.service.helpers')
+} from './board.service.helpers'
 
 async function getAll() {
 
@@ -20,7 +21,7 @@ async function getAll() {
   return boards.map(Board.toResponse)
 }
 
-async function getById(boardId) {
+async function getById(boardId: string) {
   const stored = await boardRepo.getOnce(byId(boardId))
 
   if (!stored) return null
@@ -29,15 +30,15 @@ async function getById(boardId) {
   return board.toResponse()
 }
 
-async function create(boardLike) {
-  const board = new Board(boardLike)
+async function create(boardLike: IBoard) {
+  const board = Board.create(boardLike)
 
   await storeBoard(board)
 
   return getById(board.id)
 }
 
-async function removeById(boardId) {
+async function removeById(boardId: string) {
 
   await Promise.all([
     boardRepo.remove(byId(boardId)),
@@ -46,16 +47,16 @@ async function removeById(boardId) {
   ])
 }
 
-async function updateById(boardId, toUpdate) {
+async function updateById(boardId: string, toUpdate: IBoard) {
 
   await removeById(boardId)
 
-  await storeBoard(new Board(toUpdate))
+  await storeBoard(Board.create(toUpdate))
 
   return getById(boardId)
 }
 
-module.exports = {
+export {
   create,
   getAll,
   getById,

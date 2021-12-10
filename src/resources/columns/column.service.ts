@@ -57,6 +57,10 @@ async function getById(columnId: string | string[]) {
     : columnRepo.getOnce(byColumnId(columnId))
 }
 
+async function getByBoardId(boardId: string) {
+  return columnRepo.get(byBoardId(boardId))
+}
+
 /**
  * Create and store one column
  *
@@ -104,6 +108,7 @@ async function removeByBoardId(boardId: string) {
 export {
   create,
   getById,
+  getByBoardId,
   removeById,
   removeByBoardId,
 }
