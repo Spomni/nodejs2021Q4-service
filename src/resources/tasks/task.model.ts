@@ -1,15 +1,36 @@
-const { v4: uuid } = require('uuid')
+import { v4 as uuid } from 'uuid'
+import {
+  ITaskModel,
+  ITask,
+  ITaskToStore,
+  ITaskToSend,
+} from '../../contract/resources/task.contract'
 
-class Task {
+export class Task implements ITaskModel {
+  
+  id: string
+
+  title: string
+
+  order: number
+
+  description: string
+
+  userId: string | null
+
+  boardId: string | null
+
+  columnId: string | null
+  
   constructor({
     id = uuid(),
     title = 'Column',
     order = 0,
     description = '',
-    userId,
-    boardId,
-    columnId
-  }) {
+    userId = null,
+    boardId = null,
+    columnId = null,
+  }: ITask) {
     this.id = id
     this.title = title
     this.order = order
@@ -27,7 +48,7 @@ class Task {
     return Task.toStorage(this)
   }
   
-  static toStorage(task) {
+  static toStorage(task: Task): ITaskToStore {
     const {
       id,
       title,
@@ -49,9 +70,11 @@ class Task {
     }
   }
   
-  static toResponse(task) {
+  static toResponse(task: Task): ITaskToSend {
     return Task.toStorage(task)
   }
+  
+  static create(task: ITask) {
+    return new Task(task)
+  }
 }
-
-module.exports = Task
