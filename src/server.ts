@@ -1,5 +1,5 @@
 import { PORT } from './common/config'
-import * as app from './app'
+import { app } from './app'
 
 app.listen(PORT, (err: Error | null) => {
 

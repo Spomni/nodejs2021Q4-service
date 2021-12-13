@@ -1,12 +1,11 @@
-const Fastify = require('fastify')
+import { fastify as Fastify } from "fastify";
+import { swaggerUI } from './resources/doc/swagger-ui'
+import { userRouter } from './resources/users/user.router'
+import { boardRouter } from './resources/boards/board.router'
+import { taskRouter } from './resources/tasks/task.router'
 
-const { swaggerUI } = require('./resources/doc/swagger-ui')
-const { userRouter } = require('./resources/users/user.router');
-const { boardRouter } = require('./resources/boards/board.router');
-const { taskRouter } = require('./resources/tasks/task.router');
-
-const { NODE_ENV } = require('./common/config')
-const { RouteRegistrant } = require('./common/route-registrant')
+import { NODE_ENV } from './common/config'
+import { RouteRegistrant, RouteConfig, PluginConfig } from './common/route-registrant'
 
 const isModeDev = () => NODE_ENV === 'development'
 const logWarn = () => ({ logger: { level: 'warn', prettyPrint: true }})
@@ -34,7 +33,7 @@ const routeList = [
     options: { prefix: '/boards/:boardId/tasks' },
     plugin: taskRouter,
   }
-]
+] as Array<RouteConfig | PluginConfig>
 
 function createApp() {
 
@@ -48,4 +47,4 @@ function createApp() {
   return app
 }
 
-module.exports = createApp()
+export const app = createApp()
