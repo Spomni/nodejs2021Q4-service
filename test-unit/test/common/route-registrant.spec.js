@@ -13,7 +13,7 @@ jest.mock('fastify', () => {
 })
 
 const app = require('fastify')()
-const RouteRegistrant = require(fromSrc('common/route-registrant'))
+const { RouteRegistrant } = require(fromSrc('common/route-registrant'))
 const { create: createRegistrant } = RouteRegistrant
 
 describe('route-registrant', () => {
@@ -39,7 +39,7 @@ describe('route-registrant', () => {
 
         createRegistrant(app).register(config)
 
-        expect(app.route).toHaveBeenCalledWith(config)
+        expect(app.route).toHaveBeenCalledWith({ method: [config.method]})
       });
 
       it('should transform route method to upper case', () => {
@@ -50,10 +50,10 @@ describe('route-registrant', () => {
         createRegistrant(app).register(config)
 
         expect(app.route).toHaveBeenCalledWith({
-          method: config.method.toUpperCase()
+          method: [config.method.toUpperCase()]
         })
       });
-      
+
       it('should support the routing method ALL', () => {
         const method = 'all'
         const path = '/some/path'
@@ -66,9 +66,9 @@ describe('route-registrant', () => {
           path,
           handler,
         }
-        
+
         createRegistrant(app).register(config)
-        
+
         expect(app.all).toHaveBeenCalledWith(path, options, handler)
       })
 
@@ -86,14 +86,14 @@ describe('route-registrant', () => {
 
         const configList = [
           {
-            method: 'GET'
+            method: ['GET']
           },
           {
             plugin: () => {},
             options: {}
           },
           {
-            method: 'POST'
+            method: ['POST']
           },
           {
             plugin: () => {},

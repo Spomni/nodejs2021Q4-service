@@ -15,7 +15,7 @@
     "lint": "eslint --ext .js,.ts --fix src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
-    "test:unit": "cross-env NODE_ENV=test:unit jest --testMatch \"<rootDir>/test-unit/**/*.spec.js\" --setupFilesAfterEnv \"<rootDir>/test-unit/setup-unit.js\""
+    "test:unit": "cross-env NODE_ENV=test:unit jest --config=\"./test-unit/jest-unit.config.js\""
   },
   "keywords": [
     "rs",
@@ -74,6 +74,7 @@
     "pino-pretty": "^7.2.0",
     "prettier": "2.4.1",
     "supertest": "6.1.6",
+    "ts-jest": "^27.1.1",
     "typescript": "^4.5.2"
   }
 }
