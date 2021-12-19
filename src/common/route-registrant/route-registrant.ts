@@ -22,6 +22,11 @@ import { InvalidConfigError } from './route-registrant-errors'
 export class RouteRegistrant {
   private _fastify: FastifyInstance
 
+  /**
+   * Construct a RouteRegistrant instance
+   *
+   * @param fastify - instance of fastify to register routes
+   */
   constructor(fastify: FastifyInstance) {
     this._fastify = fastify
   }
@@ -111,6 +116,12 @@ export class RouteRegistrant {
     this._fastify.register(plugin, options)
   }
 
+  /**
+   * Create a RouteRegistrant instance
+   *
+   * @param fastify - instance of fastify to register routes
+   * @returns - new RouteRegistrant instance
+   */
   static create(fastify: FastifyInstance) {
     return new RouteRegistrant(fastify)
   }
