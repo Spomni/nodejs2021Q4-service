@@ -45,7 +45,7 @@ export class Board implements IBoardModel {
     return { id, title }
   }
 
-    /**
+  /**
    * Transform this instance to an object that can be sended to user
    *
    * @returns board to send
@@ -55,7 +55,7 @@ export class Board implements IBoardModel {
   }
 
   /**
-   * Transform passed board an object that can be sended to user
+   * Transform passed board to object that can be sended to user
    *
    * @param board - board to transform
    *

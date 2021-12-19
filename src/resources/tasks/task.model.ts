@@ -6,8 +6,11 @@ import {
   ITaskToSend,
 } from '../../contract/resources/task.contract'
 
+/**
+ * Model to represent a board
+ */
 export class Task implements ITaskModel {
-  
+
   id: string
 
   title: string
@@ -21,7 +24,12 @@ export class Task implements ITaskModel {
   boardId: string | null
 
   columnId: string | null
-  
+
+  /**
+   * Construct a new Task instance
+   *
+   * @param tasklike - an object to construct a board
+   */
   constructor({
     id = uuid(),
     title = 'Column',
@@ -39,15 +47,32 @@ export class Task implements ITaskModel {
     this.boardId = boardId
     this.columnId = columnId
   }
-  
+
+  /**
+   * Transform this instance to an object that can be sended to user
+   *
+   * @returns task to send
+   */
   toResponse() {
     return Task.toResponse(this)
   }
-  
+
+  /**
+   * Transform this instance to an object that can be stored
+   *
+   * @returns task to store
+   */
   toStorage() {
     return Task.toStorage(this)
   }
-  
+
+  /**
+   * Transform passed task to object that can be stored
+   *
+   * @param task - task to transform
+   *
+   * @returns task to store
+   */
   static toStorage(task: Task): ITaskToStore {
     const {
       id,
@@ -58,7 +83,7 @@ export class Task implements ITaskModel {
       boardId,
       columnId,
     } = task
-    
+
     return {
       id,
       title,
@@ -69,11 +94,23 @@ export class Task implements ITaskModel {
       columnId,
     }
   }
-  
+
+  /**
+   * Transform passed task to object that can be sended to user
+   *
+   * @param task - task to transform
+   *
+   * @returns task to send
+   */
   static toResponse(task: Task): ITaskToSend {
     return Task.toStorage(task)
   }
-  
+
+  /**
+   * Create a new Task instance
+   *
+   * @param task - an object to construct a task
+   */
   static create(task: ITask) {
     return new Task(task)
   }

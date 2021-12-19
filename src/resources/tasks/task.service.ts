@@ -11,6 +11,12 @@ import {
   byColumnId,
 } from './task.service.helpers'
 
+/**
+ * Get a task with passed id
+ *
+ * @param taskId - board id
+ * @returns board or null if the task is not found
+ */
 async function getById(taskId: string) {
   const stored = await taskRepo.getOnce(byId(taskId))
 
@@ -20,12 +26,25 @@ async function getById(taskId: string) {
   return task.toResponse()
 }
 
+/**
+ * Create and store a new task
+ *
+ * @param taskLike - data to create task
+ * @returns created task
+ */
 async function create(taskLike: ITask) {
   const task = new Task(taskLike)
   await storeTask(task)
   return getById(task.id)
 }
 
+/**
+ * Get all stored tasks with passed boardId
+ *
+ * @param boardId - board id
+ *
+ * @returns an array of tasks
+ */
 async function getAllByBoardId(boardId: string) {
   const storedList = await taskRepo.get(byBoardId(boardId))
 
@@ -36,18 +55,41 @@ async function getAllByBoardId(boardId: string) {
   return taskList.map(Task.toResponse)
 }
 
+/**
+ * Remove all tasks with passed id
+ *
+ * @param taskId - task id
+ */
 async function removeById(taskId: string) {
   await taskRepo.remove(byId(taskId))
 }
 
+/**
+ * Remove all task with passed columnId
+ *
+ * @param columnId - column id
+ */
 async function removeByColumnId(columnId: string) {
   await taskRepo.remove(byColumnId(columnId))
 }
 
+/**
+ * Remove all task with passed boardId
+ *
+ * @param boardId - board id
+ */
 async function removeByBoardId(boardId: string) {
   await taskRepo.remove(byBoardId(boardId))
 }
 
+/**
+ * Update a stored task
+ *
+ * @param taskId - board id
+ * @param toUpdate - an object to update a task
+ *
+ * @returns updated task
+ */
 async function updateById(taskId: string, toUpdate: ITask) {
   const task = new Task(toUpdate)
 
@@ -57,6 +99,11 @@ async function updateById(taskId: string, toUpdate: ITask) {
   return getById(task.id)
 }
 
+/**
+ * Find all tasks with passed userId and set one to null
+ *
+ * @param userId - user id
+ */
 async function unassignUser(userId: string) {
   const storedList = await taskRepo.get(byUserId(userId))
 
