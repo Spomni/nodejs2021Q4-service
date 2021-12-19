@@ -32,7 +32,7 @@ function byColumnId(columnId: string) {
  *
  * Callback returns true if the current item's id is contained in the passed array od ids.
  *
- * @param idList - if to equality
+ * @param columnIdList - list to checks
  *
  * @returns Confirmation or not
  */
@@ -40,6 +40,15 @@ function byColumnIdList(columnIdList: string[]) {
   return (column: IColumnToStore) => columnIdList.includes(column.id)
 }
 
+/**
+ * Get an iterator callback to filter a column collection by the board id.
+ *
+ * Callback returns true if the current item's id is equal to target id
+ *
+ * @param targetBoardId - id to equality
+ *
+ * @returns Confirmation or not
+ */
 function byBoardId(targetBoardId: string) {
   return ({ boardId }: IColumnToStore) => boardId === targetBoardId
 }
@@ -57,6 +66,13 @@ async function getById(columnId: string | string[]) {
     : columnRepo.getOnce(byColumnId(columnId))
 }
 
+/**
+ * Get all stored columns with passed board id
+ *
+ * @param boardId - board id
+ *
+ * @returns an array of columns
+ */
 async function getByBoardId(boardId: string) {
   return columnRepo.get(byBoardId(boardId))
 }
@@ -101,6 +117,11 @@ async function removeById(columnId: string) {
   ])
 }
 
+/**
+ * remove all stored columns with passed id
+ *
+ * @param boardId - board id
+ */
 async function removeByBoardId(boardId: string) {
   await columnRepo.remove(byBoardId(boardId))
 }

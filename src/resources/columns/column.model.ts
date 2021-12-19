@@ -7,7 +7,7 @@ import {
 } from "../../contract/resources/column.contract";
 
 /**
- * Column model
+ * Model to represent a board column
  */
 export class Column implements IColumnModel {
   id: string
@@ -18,6 +18,11 @@ export class Column implements IColumnModel {
 
   boardId: string
 
+  /**
+   * Construct a new Column instance
+   *
+   * @param columnLike - an object to construct a column
+   */
   constructor({
     id = uuid(),
     title = 'Column',
@@ -31,10 +36,10 @@ export class Column implements IColumnModel {
   }
 
   /**
-   * Get a value o the "id" property from the Column instance
+   * Get a value of the "id" property from the Column instance
    *
    * @param column - column instance
-   * @returns - passed column id
+   * @returns passed column id
    */
   static getId(column: Column) {
     return column.id
@@ -43,7 +48,7 @@ export class Column implements IColumnModel {
   /**
    * Get a column that can be stored safely from this instance
    *
-   * @returns - safely column
+   * @returns safely column
    */
   toStorage() {
     return Column.toStorage(this)
@@ -52,7 +57,7 @@ export class Column implements IColumnModel {
   /**
    * Get a column that can be sended safely from this instance
    *
-   * @returns - safely column
+   * @returns safely column
    */
   toResponse() {
     return Column.toResponse(this)
@@ -61,7 +66,7 @@ export class Column implements IColumnModel {
   /**
    * Get a column that can be stored safely from passed instance
    *
-   * @returns - safely column
+   * @returns safely column
    */
   static toStorage(column: Column): IColumnToStore {
     const { id, title, order, boardId } = column
@@ -71,7 +76,7 @@ export class Column implements IColumnModel {
   /**
    * Get a column that can be sended safely from passed instance
    *
-   * @returns - safely column
+   * @returns safely column
    */
   static toResponse(column: Column): IColumnToSend {
     const { id, title, order } = column
@@ -82,7 +87,7 @@ export class Column implements IColumnModel {
    * Get a new instance f the Column class
    *
    * @param columnLike - initial column to create from
-   * @returns - new Column instance
+   * @returns new Column instance
    */
   static create(columnLike: IColumnToCreate) {
     return new Column(columnLike)
