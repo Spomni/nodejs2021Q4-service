@@ -67,7 +67,8 @@ async function removeBoard(req: RequestByBoardId, reply: FastifyReply) {
 /**
  * Handle request to update a board
  *
- * @param req - request to remove a board
+ * @param req - request to update a board
+ *
  * @returns updated board
  */
 async function updateBoard(req: RequestByBoardId & RequestWithBoard) {

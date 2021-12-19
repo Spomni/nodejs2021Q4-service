@@ -37,6 +37,11 @@ const routeList = [
   },
 ] as RouteConfig[]
 
+/**
+ * Register routes of the users requests
+ *
+ * @param fastify - instance to register routes
+ */
 export async function userRouter(fastify: FastifyInstance) {
   RouteRegistrant.create(fastify)
     .register(routeList)

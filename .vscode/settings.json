@@ -10,6 +10,7 @@
     "boardlike",
     "Responsable",
     "tasklike",
-    "tsdoc"
+    "tsdoc",
+    "userlike"
   ]
 }
