@@ -10,6 +10,11 @@ import {
   storeBoard,
 } from './board.service.helpers'
 
+/**
+ * Get all stored boards
+ *
+ * @returns an array of boards
+ */
 async function getAll() {
 
   const storedList = await boardRepo.getAll()
@@ -21,6 +26,12 @@ async function getAll() {
   return boards.map(Board.toResponse)
 }
 
+/**
+ * Get a board with passed id
+ *
+ * @param boardId - board id
+ * @returns board or null if the board is not found
+ */
 async function getById(boardId: string) {
   const stored = await boardRepo.getOnce(byId(boardId))
 
@@ -30,6 +41,12 @@ async function getById(boardId: string) {
   return board.toResponse()
 }
 
+/**
+ * Create and store a new board
+ *
+ * @param boardLike - data to create board
+ * @returns created board
+ */
 async function create(boardLike: IBoard) {
   const board = Board.create(boardLike)
 
@@ -38,6 +55,11 @@ async function create(boardLike: IBoard) {
   return getById(board.id)
 }
 
+/**
+ * remove a board with passed id
+ *
+ * @param boardId - board id
+ */
 async function removeById(boardId: string) {
 
   await Promise.all([
@@ -47,6 +69,13 @@ async function removeById(boardId: string) {
   ])
 }
 
+/**
+ * Update a stored board
+ *
+ * @param boardId - board id
+ * @param toUpdate - an object to update a board
+ * @returns updated board
+ */
 async function updateById(boardId: string, toUpdate: IBoard) {
 
   await removeById(boardId)
