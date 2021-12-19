@@ -24,7 +24,8 @@ function byId(userId: string) {
  */
 async function getAll() {
   const storedList = await userRepo.getAll()
-  return storedList.map(User.toResponse)
+  const userList = storedList.map((stored) => User.create(stored))
+  return userList.map(User.toResponse)
 }
 
 /**
@@ -35,6 +36,7 @@ async function getAll() {
  */
 async function getById(userId: string) {
   const stored = await userRepo.getOnce(byId(userId))
+  if (stored === null) return null
   return User.create(stored).toResponse()
 }
 

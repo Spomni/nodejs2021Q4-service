@@ -5,7 +5,8 @@
     "target": "es2016",
     "noImplicitAny": true,
     "module": "commonjs",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "strict": true
   },
   "include": ["src/**/*"],
 }
