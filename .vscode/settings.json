@@ -5,5 +5,15 @@
   "javascript.validate.enable": false,
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "cSpell.words": [
+    "boardlike",
+    "multistream",
+    "pino",
+    "Responsable",
+    "serializers",
+    "tasklike",
+    "tsdoc",
+    "userlike"
+  ]
 }
