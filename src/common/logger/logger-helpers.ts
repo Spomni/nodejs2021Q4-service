@@ -1,5 +1,6 @@
 import Pino from "pino";
 import type { FastifyRequest } from "fastify"
+import { ensureFileSync } from "fs-extra";
 
 export function logToConsole(
   targets: Pino.TransportTargetOptions[],
@@ -17,6 +18,9 @@ export function logToPath(
   level: Pino.LevelWithSilent,
   destination: string
 ) {
+
+  ensureFileSync(destination)
+
   targets.push({
     level,
     target: 'pino-pretty',
