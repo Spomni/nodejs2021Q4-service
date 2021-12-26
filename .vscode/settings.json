@@ -11,6 +11,7 @@
     "multistream",
     "pino",
     "Responsable",
+    "serializers",
     "tasklike",
     "tsdoc",
     "userlike"

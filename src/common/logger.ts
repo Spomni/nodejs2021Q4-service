@@ -29,6 +29,19 @@ if (ERR_OUTPUT) {
 
 export const logger = Pino({
   level,
+  serializers: {
+    req (request) {
+      return {
+        url: request.url,
+        method: request.method,
+        query: request.query,
+        body: request.body,
+        hostname: request.hostname,
+        remoteAddress: request.remoteAddress,
+        remotePort: request.remotePort,
+      }
+    }
+  },
   transport: {
     targets,
   },
