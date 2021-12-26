@@ -1,12 +1,13 @@
 import { PORT } from './common/config'
+import { logger } from "./common/logger";
 import { app } from './app'
 
 app.listen(PORT, (err: Error | null) => {
 
   if (err) {
-   console.error(err)
+   logger.error(err)
    process.exit(1)
   }
 
-  console.log(`App is running on http://localhost:${PORT}`)
+  logger.info(`App is running on http://localhost:${PORT}`)
 });
