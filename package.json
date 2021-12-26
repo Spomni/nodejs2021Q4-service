@@ -52,9 +52,11 @@
     "dotenv": "10.0.0",
     "fastify": "^3.24.1",
     "fastify-swagger": "^4.12.6",
+    "pino": "^7.6.1",
     "uuid": "8.3.2"
   },
   "devDependencies": {
+    "@types/pino": "^7.0.5",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "@typescript-eslint/parser": "^5.5.0",
     "chai": "4.3.4",

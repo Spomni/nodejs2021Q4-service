@@ -4,29 +4,8 @@ import { userRouter } from './resources/users/user.router'
 import { boardRouter } from './resources/boards/board.router'
 import { taskRouter } from './resources/tasks/task.router'
 
-import { NODE_ENV } from './common/config'
+import { logger } from "./common/logger";
 import { RouteRegistrant, RouteConfig, PluginConfig } from './common/route-registrant'
-
-/**
- * Check if the application is started in the development mode
- *
- * @returns checking result
- */
-const isModeDev = () => NODE_ENV === 'development'
-
-/**
- * Get a config to enable logging
- *
- * @returns fastify config to log warn pretty
- */
-const logWarn = () => ({ logger: { level: 'warn', prettyPrint: true }})
-
-/**
- * Get a config to disable logging
- *
- * @returns fastify config to disable logging
- */
-const logNothing = () => ({ logger: false })
 
 const routeList = [
   {
@@ -60,7 +39,7 @@ const routeList = [
 function createApp() {
 
   const app = Fastify({
-    ...(isModeDev() ? logWarn() : logNothing()),
+    logger,
   })
 
   RouteRegistrant.create(app)
